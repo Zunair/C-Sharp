@@ -58,7 +58,7 @@ namespace LSamplePlugin
 
         /// <summary>
         /// Returns a string to LINKS in the response, action or web request.
-        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test]
+        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test1]
         /// </summary>
         /// <returns>Hello World</returns>        
         public static string Test1()
@@ -68,7 +68,7 @@ namespace LSamplePlugin
 
         /// <summary>
         /// Returns a string to LINKS in the response, action or web request.
-        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test("Hello World")]
+        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test2("Hello World")]
         /// </summary>
         /// <param name="phrase"></param>
         /// <returns>phrase variable</returns>
@@ -79,7 +79,7 @@ namespace LSamplePlugin
         
         /// <summary>
         /// Returns a string to LINKS in the response, action or web request.
-        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test("1","2")]
+        /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test3("1","2")]
         /// </summary>
         /// <param name="x">number</param>
         /// <param name="y">number</param>
