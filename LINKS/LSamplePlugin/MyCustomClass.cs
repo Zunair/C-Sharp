@@ -59,6 +59,7 @@ namespace LSamplePlugin
         /// <summary>
         /// Returns a string to LINKS in the response, action or web request.
         /// This method can be called from LINKS like this [LSamplePlugin.MyCustomClass.Test1]
+        /// In version after v2.6.2.3, this can also be used[LSamplePlugin.MyCustomClass.Test1()]
         /// </summary>
         /// <returns>Hello World</returns>        
         public static string Test1()
