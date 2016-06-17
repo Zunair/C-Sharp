@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.QualityTools.Testing.Fakes;
+using System.Threading;
 
 /// Add reference to jarvisWPF from %APPDATA%\LINKS\Customization\Plugins\jarvisWPF.exe
 
@@ -88,6 +89,72 @@ namespace LSamplePlugin
         public static string Test3(string x, string y)
         {
             return string.Format("{0} plus {1} equals to {2}", int.Parse(x), int.Parse(y), int.Parse(x) + int.Parse(y));
+        }
+
+        private static MyCustomWindow myCustomWindow;
+        public static string Test4()
+        {
+            string retVal = string.Empty;
+
+            myCustomWindow = new MyCustomWindow();           
+
+            return retVal;
+        }
+
+        public static string Test_ChangeLabelInMyCustomWindow(string labelText)
+        {
+            string retVal = string.Empty;
+
+            myCustomWindow.FormTest_ChangeLabel(labelText);
+
+            return retVal;
+        }
+
+        public static string Test_FormClose()
+        {
+            string retVal = string.Empty;
+
+            myCustomWindow.FormTest_Close();
+
+            return retVal;
+        }
+    }
+
+    public class MyCustomWindow
+    {
+        public MyCustomWindow()
+        {
+            Thread t = new Thread(ThreadProc);
+            t.SetApartmentState(ApartmentState.STA);
+
+            t.Start();
+        }
+
+
+
+        Form_Test formTest;
+        private void ThreadProc()
+        {
+            formTest = new Form_Test();
+            formTest.Show();
+            formTest.Closed += (s, e) => System.Windows.Threading.Dispatcher.ExitAllFrames();
+            System.Windows.Threading.Dispatcher.Run();
+        }
+
+        public void FormTest_ChangeLabel(string str)
+        {
+            formTest.test_label.Invoke((Action)(() =>
+            {
+                formTest.test_label.Text = str;
+            }));
+        }
+
+        public void FormTest_Close()
+        {
+            formTest.test_label.Invoke((Action)(() =>
+            {
+                formTest.Close();
+            }));
         }
     }
 }
