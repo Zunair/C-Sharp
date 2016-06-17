@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace LSamplePluginWPF
 {
-    class MyCustomClass
+    public class MyCustomClass
     {
         private static MyCustomWindow myCustomWindow;
         
@@ -114,20 +114,31 @@ namespace LSamplePluginWPF
             // Initialize Window Instance
             wpfTest = new Test_WPFWindow();
 
-            // Get Templates for controls
-            ControlTemplate buttonTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ButtonControl_CutLeftRight");
-            ControlTemplate textBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("TextBox_ControlTemplate");
-            ControlTemplate checkBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("CheckBox_ControlTemplate");
-            ControlTemplate comboBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ComboBox_ControlTemplate");
-            
-            // Apply templates
-            // Note: This will not work on v2.6.2.3 or older            
-            wpfTest.test_comboBox.Template = comboBoxTemplate;
-            wpfTest.test_button_Speak.Template = buttonTemplate;
-            wpfTest.test_textBox_Speak.Template = textBoxTemplate;
-            wpfTest.test_button_Emulate.Template = buttonTemplate;
-            wpfTest.test_textBox_Emulate.Template = textBoxTemplate;
-            wpfTest.test_checkBox_LoadOnStart.Template = checkBoxTemplate;
+            try
+            {
+                if (wpfTest.LINKSInitialized())
+                {
+                    // Get Templates for controls
+                    // Note: This will not work on v2.6.2.3 or older
+                    ControlTemplate buttonTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ButtonControl_CutLeftRight");
+                    ControlTemplate textBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("TextBox_ControlTemplate");
+                    ControlTemplate checkBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("CheckBox_ControlTemplate");
+                    ControlTemplate comboBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ComboBox_ControlTemplate");
+
+                    // Apply templates
+                    // Note: This will not work on v2.6.2.3 or older            
+                    wpfTest.test_comboBox.Template = comboBoxTemplate;
+                    wpfTest.test_button_Speak.Template = buttonTemplate;
+                    wpfTest.test_textBox_Speak.Template = textBoxTemplate;
+                    wpfTest.test_button_Emulate.Template = buttonTemplate;
+                    wpfTest.test_textBox_Emulate.Template = textBoxTemplate;
+                    wpfTest.test_checkBox_LoadOnStart.Template = checkBoxTemplate;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Not all templates work on v2.6.2.3 or older. Only Button Template can work after commenting out the rest of the template lines.");
+            }
             
             // Set properties
             wpfTest.test_comboBox.IsDropDownOpen = false;

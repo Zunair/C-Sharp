@@ -62,7 +62,17 @@ namespace LSamplePluginWPF
         /// </summary>
         private void test_button_speak_Click(object sender, RoutedEventArgs e)
         {
-            jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(test_textBox_Speak.Text);
+            try
+            {
+                if (LINKSInitialized())
+                {
+                    jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(test_textBox_Speak.Text);
+                }
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error.Message);
+            }
         }
 
         /// <summary>
@@ -70,7 +80,17 @@ namespace LSamplePluginWPF
         /// </summary>
         private void test_button_emulate_Click(object sender, RoutedEventArgs e)
         {
-            jarvisWPF.Classes.Plugins.PluginController.EmulateSpeech(test_textBox_Emulate.Text);
+            try
+            {
+                if (LINKSInitialized())
+                {
+                    jarvisWPF.Classes.Plugins.PluginController.EmulateSpeech(test_textBox_Emulate.Text);
+                }
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error.Message);
+            }
         }
 
         /// <summary>
@@ -114,6 +134,19 @@ namespace LSamplePluginWPF
             DoubleAnimation ani = new DoubleAnimation(.08, TimeSpan.FromMilliseconds(100));
             chkBox.BeginAnimation(OpacityProperty, ani);
             test_labelBlock_LoadOnStart.BeginAnimation(OpacityProperty, ani);
+        }
+
+        public bool LINKSInitialized()
+        {
+            bool retVal = false;
+
+            if (jarvisWPF.PublicClass.SpeechSynth == null)
+            {
+                Console.WriteLine("This dll is not loaded in LINKS. You will not be able to run any LINKS functionalites.");
+                retVal = false;
+            }
+
+            return retVal;
         }
     }
 }
