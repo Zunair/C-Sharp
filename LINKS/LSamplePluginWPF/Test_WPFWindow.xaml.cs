@@ -37,6 +37,9 @@ namespace LSamplePluginWPF
             }
         }
         
+        /// <summary>
+        /// Used by combo box
+        /// </summary>
         public XmlDataProvider test_ComboBox_DataProvider
         {
             get
@@ -47,11 +50,6 @@ namespace LSamplePluginWPF
                     test_comboBox_DataProvider.Source = new Uri(AppData + "\\LINKS\\Customization\\XML\\UserVariables.xml");
                 }
                 return test_comboBox_DataProvider;
-            }
-
-            set
-            {
-                test_comboBox_DataProvider = value;
             }
         }
 
