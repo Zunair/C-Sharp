@@ -142,7 +142,7 @@ namespace LSamplePluginWPF
             
             // Set properties
             wpfTest.test_comboBox.IsDropDownOpen = false;
-            wpfTest.test_comboBox.Visibility = Visibility.Hidden;
+            //wpfTest.test_comboBox.Visibility = Visibility.Hidden;
             wpfTest.test_checkBox_LoadOnStart.IsChecked = Properties.Settings.Default.LoadOnStart;
             wpfTest.test_labelBlock_LoadOnStart.FontFamily = jarvisWPF.PublicClass.GetFont();
 

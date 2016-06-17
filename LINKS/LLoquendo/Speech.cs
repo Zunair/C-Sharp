@@ -12,19 +12,30 @@ namespace LLoquendo
         static _DLTTS7 loquendo = null;
 
         //[LLoquendo.Speech.Speak("\\item=Breath 1, 2, 3, 4.","Kate","100")]
-        public static void Speak(string phrase, string voice, string volume)
+        public static string Speak(string phrase, string voice, string volume)
         {
-            if (loquendo == null)
+            string retVal = string.Empty;
+
+            try
             {
-                loquendo = new LTTS7();
+                if (loquendo == null)
+                {
+                    loquendo = new LTTS7();
+                }
+
+                loquendo.Voice = voice;
+                loquendo.Volume = int.Parse(volume);
+
+                loquendo.SetAttribute("TextFormat", "SSML");
+                loquendo.Device = 0;
+                loquendo.Read(phrase);
+            }
+            catch
+            {
+                retVal = voice;
             }
 
-            loquendo.Voice = voice;
-            loquendo.Volume = int.Parse(volume);
-
-            loquendo.SetAttribute("TextFormat", "SSML");
-            loquendo.Device = 0;
-            loquendo.Read(phrase);            
+            return retVal;
         }
     }
 }

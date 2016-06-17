@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:LSamplePluginWPF"
         mc:Ignorable="d"
         Title="Test WPFWindow" Height="263.686" Width="271.218" AllowsTransparency="True" WindowStyle="None" ShowInTaskbar="False" Background="{x:Null}" Closing="Window_Closing">
-    <Window.Resources>
-        <XmlDataProvider x:Key="UserVariables" Source="file://C:/Users/Zunair/AppData/Roaming/LINKS/Customization/XML/UserVariables.xml"/>
-    </Window.Resources>
     <Grid>
         <Button x:Name="test_button_Speak" Content="Speak" Margin="39,67,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="190" Click="test_button_speak_Click" Height="41"/>
         <TextBox x:Name="test_textBox_Speak" HorizontalAlignment="Left" Height="20" Margin="39,42,0,0" TextWrapping="Wrap" Text="Hello World" VerticalAlignment="Top" Width="190"/>
@@ -18,7 +15,7 @@
         <CheckBox x:Name="test_checkBox_LoadOnStart" HorizontalAlignment="Left" Margin="39,218,0,0" VerticalAlignment="Top" IsChecked="{Binding RunOnStart, ElementName=window}" MouseEnter="test_checkBox_LoadOnStart_MouseEnter" MouseLeave="test_checkBox_LoadOnStart_MouseLeave" Opacity="0.2"/>
         <Label x:Name="test_labelBlock_LoadOnStart" Foreground="#E500FFFF" Content="LOAD ON START" HorizontalAlignment="Left" Margin="70,213,0,0" VerticalAlignment="Top" Opacity="0.2"/>
         <ComboBox x:Name="test_comboBox" 
-                  DataContext="{StaticResource UserVariables}" 
+                  DataContext="{Binding test_ComboBox_DataProvider, ElementName=window}" 
             	  ItemsSource="{Binding XPath=/ArrayOfVariable/Variable/Name}" 
                   HorizontalAlignment="Left" Margin="39,244,0,0" VerticalAlignment="Top" Width="190" IsDropDownOpen="True"/>
     </Grid>

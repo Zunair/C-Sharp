@@ -20,7 +20,9 @@ namespace LSamplePluginWPF
     /// </summary>
     public partial class Test_WPFWindow : Window
     {
+        string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         bool runOnStart = true;
+        XmlDataProvider test_comboBox_DataProvider = null;
 
         public bool RunOnStart
         {
@@ -32,6 +34,24 @@ namespace LSamplePluginWPF
             set
             {
                 runOnStart = value;
+            }
+        }
+        
+        public XmlDataProvider test_ComboBox_DataProvider
+        {
+            get
+            {
+                if (test_comboBox_DataProvider == null)
+                {
+                    test_comboBox_DataProvider = new XmlDataProvider();
+                    test_comboBox_DataProvider.Source = new Uri(AppData + "\\LINKS\\Customization\\XML\\UserVariables.xml");
+                }
+                return test_comboBox_DataProvider;
+            }
+
+            set
+            {
+                test_comboBox_DataProvider = value;
             }
         }
 
