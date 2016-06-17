@@ -10,7 +10,8 @@ namespace LSampleTestProject
     {
         static void Main(string[] args)
         {
-            // Make sure jarvisWPF is running
+            LLoquendo.Speech.Speak("\\item=Breath 1, 2, 3, 4.", "Kate", "100");
+
             LSamplePluginWPF.MyCustomClass.Test_InitWPFWindow();
         }
     }

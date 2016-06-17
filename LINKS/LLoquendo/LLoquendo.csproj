@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1418213-5369-4120-88E6-E818AAB2E9ED}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{2332ED03-8B51-4C94-B9CB-A357C290780F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LSampleTestProject</RootNamespace>
-    <AssemblyName>LSampleTestProject</AssemblyName>
+    <RootNamespace>LLoquendo</RootNamespace>
+    <AssemblyName>LLoquendo</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,25 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LLoquendo\LLoquendo.csproj">
-      <Project>{2332ed03-8b51-4c94-b9cb-a357c290780f}</Project>
-      <Name>LLoquendo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LSamplePluginWPF\LSamplePluginWPF.csproj">
-      <Project>{652ece0d-9e0c-4ef3-9207-fe590e7a281a}</Project>
-      <Name>LSamplePluginWPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LSamplePlugin\LSamplePlugin.csproj">
-      <Project>{8ab098bd-927a-4c26-84cd-2eacc3b600c4}</Project>
-      <Name>LSamplePlugin</Name>
-    </ProjectReference>
+    <COMReference Include="LTTS7Lib">
+      <Guid>{5A80A7F3-4AC0-44B4-B684-1F18ADC68C4D}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
