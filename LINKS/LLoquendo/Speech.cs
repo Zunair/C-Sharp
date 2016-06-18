@@ -18,6 +18,8 @@ namespace LLoquendo
 
             try
             {
+                //System.Diagnostics.Debugger.Break();
+
                 if (loquendo == null)
                 {
                     loquendo = new LTTS7();
@@ -28,6 +30,8 @@ namespace LLoquendo
 
                 loquendo.SetAttribute("TextFormat", "SSML");
                 loquendo.Device = 0;
+
+                phrase = phrase.Replace("\\\\", "\\");
                 loquendo.Read(phrase);
             }
             catch

@@ -156,7 +156,7 @@ namespace LSamplePluginWPF
 
         public bool LINKSInitialized()
         {
-            bool retVal = false;
+            bool retVal = true;
 
             if (jarvisWPF.PublicClass.SpeechSynth == null)
             {
