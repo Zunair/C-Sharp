@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{652ECE0D-9E0C-4EF3-9207-FE590E7A281A}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LSamplePluginWPF</RootNamespace>
     <AssemblyName>LSamplePluginWPF</AssemblyName>
@@ -30,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jarvisWPF">
@@ -60,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyCustomClass.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Test_WPFWindow.xaml.cs">
       <DependentUpon>Test_WPFWindow.xaml</DependentUpon>
     </Compile>

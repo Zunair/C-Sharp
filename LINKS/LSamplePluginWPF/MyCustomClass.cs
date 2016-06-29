@@ -100,6 +100,7 @@ namespace LSamplePluginWPF
             t.Start();
         }
 
+
         /// <summary>
         /// Declare test window
         /// </summary>

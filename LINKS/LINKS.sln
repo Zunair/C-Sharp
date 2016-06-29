@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLoquendo", "LLoquendo\LLoq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWMPlayer", "LWMPlayer\LWMPlayer.csproj", "{B06B8EE7-E8F6-4CBE-A865-BA45AE278E21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uAuth2", "uAuth2\uAuth2.csproj", "{F057893A-4D98-41A2-A978-AF28F3553048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSelenium", "LSelenium\LSelenium.csproj", "{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{B06B8EE7-E8F6-4CBE-A865-BA45AE278E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B06B8EE7-E8F6-4CBE-A865-BA45AE278E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B06B8EE7-E8F6-4CBE-A865-BA45AE278E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F057893A-4D98-41A2-A978-AF28F3553048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F057893A-4D98-41A2-A978-AF28F3553048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F057893A-4D98-41A2-A978-AF28F3553048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F057893A-4D98-41A2-A978-AF28F3553048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
