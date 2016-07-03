@@ -13,7 +13,7 @@ namespace LSelenium
     class sChrome
     {
         static SeleniumChrome sChromeInstance;
-
+        
         public static string SpeakTranslation(string languageTranslateFrom, string languageTranslateTo, string phraseToTranslate)
         {
             string retVal = "";
@@ -62,12 +62,41 @@ namespace LSelenium
         {
             string retVal = "";
 
-            sChromeInstance.cD.Quit();
-            sChromeInstance.cD = null;
-
+            if (sChromeInstance != null)
+            {
+                if (sChromeInstance.cD != null)
+                {
+                    try
+                    {
+                        sChromeInstance.cD.Quit();
+                        sChromeInstance.cD = null;
+                    }
+                    catch {}
+                }
+                sChromeInstance = null;
+            }
 
             return retVal;
         }
+
+        public static void OnDispose()
+        {
+            Close();
+        }
+        //public static string Hangouts(string command, string phoneNum = "")
+        //{
+        //    if (sChromeInstance == null)
+        //    {
+        //        sChromeInstance = new SeleniumChrome();
+        //    }
+
+        //    string retVal = "";
+
+        //    sChromeInstance.Hangouts("call", phoneNum);
+
+        //    return retVal;
+        //}
+
     }
 
     class SeleniumChrome
@@ -146,5 +175,63 @@ namespace LSelenium
 
             return retVal;
         }
+
+        //public string Hangouts(string command, string phoneNum = "")
+        //{
+
+        //    string retVal = "";
+        //    Uri uri = new Uri("https://hangouts.google.com/?hs=0&action=chat&pn=" + phoneNum);
+        //    _tries++;
+
+        //    try
+        //    {
+        //        _cD.Navigate().GoToUrl(uri);
+
+        //        var wait = new WebDriverWait(_cD, TimeSpan.FromSeconds(40));
+        //        wait.Until(d => d.Title.Contains("Google"));
+        //        _cD.Manage();
+
+        //        IWebElement wE;
+        //        wait.Until(d => d.PageSource.Contains("Your call is free."));
+
+        //        //_cD.FileDetector;
+        //        System.Threading.Thread.Sleep(3000);
+        //        _cD.Keyboard.PressKey("{TAB}");
+        //        System.Threading.Thread.Sleep(60);
+        //        _cD.Keyboard.ReleaseKey("{TAB}");
+        //        //_cD.Keyboard.SendKeys("{TAB}");
+
+
+        //        {
+        //            wE = _cD.FindElement(By.TagName("OK"));
+        //            retVal = wE.Text;
+        //        }
+
+        //        wait.Until(d => d.PageSource.Contains("res-tts"));
+        //        wait.Until(d => d.FindElement(By.ClassName("res-tts")).Enabled);
+        //        wE = _cD.FindElement(By.ClassName("res-tts"));
+        //        wE.Click();
+
+        //        wait.Until(d => d.FindElement(By.ClassName("res-tts")).GetAttribute("aria-pressed") == "false");
+
+        //        _tries = 0;
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        if (e.Message.StartsWith("chrome not") && _tries < 3)
+        //        {
+        //            _cD = null;
+        //            _cD = new ChromeDriver(_cDs);
+        //            //retVal = Translate(languageTranslateFrom, languageTo, phraseToTranslate, getStringOrSetAsClipboard);
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Error:" + e.Message);
+        //        }
+        //    }
+
+        //    return retVal;
+        //}
     }
 }

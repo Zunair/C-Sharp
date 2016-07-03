@@ -251,3 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 /LINKS/LWMPlayer
+/LINKS/uAuth2
+/LINKS/oAuth2 Installer
+/LINKS/ConsoleApplication1

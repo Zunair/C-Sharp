@@ -15,17 +15,23 @@ namespace LSelenium
         [STAThread]
         static void Main(string[] args)
         {
+            
             //[LSelenium.sChrome.SpeakTranslation("en","es","what time is it?")];
             //[LSelenium.sChrome.GetTranslation("en","es","what time is it?","Get")]
             Console.Title = "LINKS - Selenium";
+
+            var parsedArgs = args
+                .Select(s => s.Split(new[] { '=' }))
+                .ToDictionary(s => s[0], s => s[1]);
+
             if (args.Length == 3)
             {
-                sChrome.SpeakTranslation(args[0], args[1], args[2]);
+                sChrome.SpeakTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"]);
                 sChrome.Close();
             }
             else if (args.Length == 4)
             {
-                sChrome.GetTranslation(args[0], args[1], args[2], args[3]);
+                sChrome.GetTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"], parsedArgs["GetSet"]);
                 sChrome.Close();
             }
             else

@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2332ED03-8B51-4C94-B9CB-A357C290780F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{AF3A6BEA-85D5-4A12-9C54-AF214AD18195}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LLoquendo</RootNamespace>
-    <AssemblyName>LLoquendo</AssemblyName>
+    <RootNamespace>LSmartThings</RootNamespace>
+    <AssemblyName>LSmartThings</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -38,8 +41,22 @@
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jarvisWPF, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3c2b46bb851e27cf, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\AppData\Roaming\LINKS\Customization\Plugins\jarvisWPF.exe</HintPath>
+    </Reference>
+    <Reference Include="jarvisWPF.2.6.0.0.Fakes">
+      <HintPath>FakesAssemblies\jarvisWPF.2.6.0.0.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="microsoft.msxml, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,19 +65,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Speech.cs" />
+    <Compile Include="EndPoints.cs" />
+    <Compile Include="LAction.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="LTTS7Lib">
-      <Guid>{5A80A7F3-4AC0-44B4-B684-1F18ADC68C4D}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <None Include="App.config" />
+    <Fakes Include="Fakes\jarvisWPF.fakes" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uAuth2\uAuth2.csproj">
+      <Project>{f057893a-4d98-41a2-a978-af28f3553048}</Project>
+      <Name>uAuth2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
