@@ -85,10 +85,6 @@
       <Project>{8ab098bd-927a-4c26-84cd-2eacc3b600c4}</Project>
       <Name>LSamplePlugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LWMPlayer\LWMPlayer.csproj">
-      <Project>{b06b8ee7-e8f6-4cbe-a865-ba45ae278e21}</Project>
-      <Name>LWMPlayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
