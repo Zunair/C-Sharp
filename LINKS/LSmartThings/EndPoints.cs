@@ -98,9 +98,7 @@ namespace LSmartThings
         {
             string retVal = "";
             SmartThingsDevice stDevice = StDevices.First(d => d.name == SwitchName);
-            string uri = _baseurl + @"/switchesz/" + stDevice.id + @"/" + state;
-            //ChangeDevStat(uri + @"/switchesz/" + stDevice.id + @"/on");
-            //ChangeDevStat(uri + @"/switchesz/" + stDevice.id + @"/off");            
+            string uri = _baseurl + @"/switchesz/" + stDevice.id + @"/" + state;         
             
             XMLHTTPRequest HTTPRequest = new XMLHTTPRequest(); // u cant reinitialize the var again but not define it again.
 
@@ -112,21 +110,17 @@ namespace LSmartThings
             HTTPRequest.send();
 
             retVal = HTTPRequest.responseText;
-            //Console.WriteLine("retVal " + retVal);
+
             try
             {
                 //JArray jResponse = (JArray)JsonConvert.DeserializeObject(retVal);
                 JObject jResponse = (JObject)JsonConvert.DeserializeObject(retVal);
-                //Console.WriteLine("jResponse " + jResponse);
                 retVal = jResponse["response"].ToString();
             }
             catch(Exception e)
             {
                 retVal = "Error: " + e.Message;
             }
-            //stDevices = JsonConvert.DeserializeObject<SmartThingsDevice[]>(responseText); //argh! lol oo it gets multiple  end points.. 
-            //Console.WriteLine(stDevices[0].id); // here is ur uri hehe
-
             // This error means requested POST/GET/PUT/DELETE is not allowed
             //"{\"error\":true,\"type\":\"SmartAppException\",\"message\":\"Method Not Allowed\"}"
             //Debugger.Break();
@@ -147,9 +141,7 @@ namespace LSmartThings
 
             requestContent.Headers.Add("Authorization", "Bearer " + _access_token);
             requestContent.Headers.Add("If-None-Match", "\"doesnt-match-anything\"");
-
-
-
+            
             var response = await client.PostAsync(tokenUrl, requestContent);
 
             if (response.IsSuccessStatusCode)
@@ -205,45 +197,6 @@ namespace LSmartThings
             {
                 return null;
             }
-
-        }
-
-        //get status of device by id
-        string getDeviceStatus(string id)
-        {
-            string retVal = "-1";
-
-            //retVal = "retrieved device statis"
-
-            return retVal;
-        }
-
-        //get id of the device by its name
-        string getDeviceID(string name)
-        {
-            string retVal = "-1";
-
-            foreach (SmartThingsDevice stDev in StDevices)
-            {
-                if (stDev.name == name)
-                {
-                    retVal = stDev.id;
-                    break;
-                }
-            }
-            //retVal = "retrieved device id"
-
-            return retVal;
-        }
-
-        //[TheSmartHouseGuy.SmartThings.changeDeiceStatus("some light","on")]
-        //change device status by name to sepecified status
-        void changeDeiceStatus(string name, string status)
-        {
-            string devId = getDeviceID(name);
-            string devStatus = getDeviceStatus(devId);
-
-            //Change status...
 
         }
 

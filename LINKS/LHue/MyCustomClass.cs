@@ -6,15 +6,15 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace LSamplePluginWPF
+namespace LHue
 {
     public class MyCustomClass
     {
         private static MyCustomWindow myCustomWindow;
-        
+
         /// <summary>
         /// Initializes a new instance of WPF window
-        /// Can be called from any reponse or web [LSamplePluginWPF.MyCustomClass.Test_InitWPFWindow]
+        /// Can be called from any reponse or web [LHue.MyCustomClass.Test_InitWPFWindow]
         /// </summary>
         /// <returns></returns>
         public static string Test_InitWPFWindow()
@@ -32,7 +32,7 @@ namespace LSamplePluginWPF
 
         /// <summary>
         /// Allows user to change Title of the window
-        /// Can be called from any reponse or web [LSamplePluginWPF.MyCustomClass.Test_ChangeTitleInMyCustomWindow("Hello World")]
+        /// Can be called from any reponse or web [LHue.MyCustomClass.Test_ChangeTitleInMyCustomWindow("Hello World")]
         /// </summary>
         /// <param name="labelText"></param>
         /// <returns></returns>
@@ -47,7 +47,7 @@ namespace LSamplePluginWPF
 
         /// <summary>
         /// Closes the window
-        /// Can be called from any reponse or web [LSamplePluginWPF.MyCustomClass.Test_FormClose]
+        /// Can be called from any reponse or web [LHue.MyCustomClass.Test_FormClose]
         /// </summary>
         /// <returns></returns>
         public static string Test_FormClose()
@@ -59,13 +59,13 @@ namespace LSamplePluginWPF
 
             return retVal;
         }
-        
+
         /// <summary>
         /// This method is called automatically from LINKS on close
         /// </summary>
         public static void OnDispose()
         {
-            Test_FormClose();            
+            Test_FormClose();
         }
 
         /// <summary>
@@ -134,15 +134,13 @@ namespace LSamplePluginWPF
                     wpfTest.test_button_Emulate.Template = buttonTemplate;
                     wpfTest.test_textBox_Emulate.Template = textBoxTemplate;
                     wpfTest.test_checkBox_LoadOnStart.Template = checkBoxTemplate;
-
-                    wpfTest.test_comboBox.Visibility = Visibility.Collapsed;
                 }
             }
             catch
             {
                 Console.WriteLine("Not all templates work on v2.6.2.3 or older. Only Button Template can work after commenting out the rest of the template lines.");
             }
-            
+
             // Set properties
             wpfTest.test_comboBox.IsDropDownOpen = false;
             //wpfTest.test_comboBox.Visibility = Visibility.Hidden;
@@ -152,7 +150,7 @@ namespace LSamplePluginWPF
             wpfTest.Show();
             wpfTest.Closed += (s, e) => Dispatcher.ExitAllFrames();
             Dispatcher.Run();
-        }       
+        }
 
         /// <summary>
         /// Allows external classes to modify window title
