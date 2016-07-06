@@ -76,7 +76,7 @@ namespace LHue
             if (Properties.Settings.Default.LoadOnStart)
             {
                 Test_InitWPFWindow();
-                jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(Properties.Settings.Default.StartUpPhrase);
+                //jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(Properties.Settings.Default.StartUpPhrase);
             }
         }
     }
@@ -119,21 +119,20 @@ namespace LHue
             {
                 if (wpfTest.LINKSInitialized())
                 {
-                    // Get Templates for controls
-                    // Note: This will not work on v2.6.2.3 or older
-                    ControlTemplate buttonTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ButtonControl_CutLeftRight");
-                    ControlTemplate textBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("TextBox_ControlTemplate");
-                    ControlTemplate checkBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("CheckBox_ControlTemplate");
-                    ControlTemplate comboBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ComboBox_ControlTemplate");
-
-                    // Apply templates
-                    // Note: This will not work on v2.6.2.3 or older            
-                    wpfTest.test_comboBox.Template = comboBoxTemplate;
-                    wpfTest.test_button_Speak.Template = buttonTemplate;
-                    wpfTest.test_textBox_Speak.Template = textBoxTemplate;
-                    wpfTest.test_button_Emulate.Template = buttonTemplate;
-                    wpfTest.test_textBox_Emulate.Template = textBoxTemplate;
-                    wpfTest.test_checkBox_LoadOnStart.Template = checkBoxTemplate;
+                    //// Get Templates for controls
+                    //// Note: This will not work on v2.6.2.3 or older
+                    //ControlTemplate buttonTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ButtonControl_CutLeftRight");
+                    //ControlTemplate textBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("TextBox_ControlTemplate");
+                    //ControlTemplate checkBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("CheckBox_ControlTemplate");
+                    //ControlTemplate comboBoxTemplate = (ControlTemplate)jarvisWPF.App.Current.FindResource("ComboBox_ControlTemplate");
+                    //
+                    //// Apply templates
+                    //// Note: This will not work on v2.6.2.3 or older            
+                    //wpfTest.test_comboBox.Template = comboBoxTemplate;
+                    //wpfTest.button_Connect.Template = buttonTemplate;
+                    //wpfTest.textBox_ip.Template = textBoxTemplate;
+                    //wpfTest.textBox_URL.Template = textBoxTemplate;
+                    //wpfTest.test_checkBox_LoadOnStart.Template = checkBoxTemplate;
                 }
             }
             catch
@@ -145,7 +144,7 @@ namespace LHue
             wpfTest.test_comboBox.IsDropDownOpen = false;
             //wpfTest.test_comboBox.Visibility = Visibility.Hidden;
             wpfTest.test_checkBox_LoadOnStart.IsChecked = Properties.Settings.Default.LoadOnStart;
-            wpfTest.test_labelBlock_LoadOnStart.FontFamily = jarvisWPF.PublicClass.GetFont();
+            //wpfTest.test_labelBlock_LoadOnStart.FontFamily = jarvisWPF.PublicClass.GetFont();
 
             wpfTest.Show();
             wpfTest.Closed += (s, e) => Dispatcher.ExitAllFrames();

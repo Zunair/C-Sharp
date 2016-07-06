@@ -25,11 +25,18 @@ namespace LLoquendo
                 {
                     loquendo = new LTTS7();
                 }
-
+                
                 loquendo.Voice = voice;
-                loquendo.Volume = int.Parse(volume);
+                if (volume == "")
+                {
+                    loquendo.Volume = jarvisWPF.PublicClass.SpeechSynth.VoiceConfigs.Get(voice).VoiceVolume;
+                }
+                else
+                {
+                    loquendo.Volume = int.Parse(volume);
+                }
                 loquendo.Speed = int.Parse(rate);
-
+                
                 loquendo.SetAttribute("TextFormat", "SSML");
                 loquendo.Device = 0;
 

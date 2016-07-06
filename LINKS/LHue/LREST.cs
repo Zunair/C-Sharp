@@ -5,9 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Runtime.Serialization.Json;
-using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -112,7 +109,7 @@ namespace LHue
                     if (response.IsSuccessStatusCode)
                     {
                         retVal = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("sent");
+                        //Console.WriteLine("sent");
                     }
                     else
                     {
@@ -128,35 +125,56 @@ namespace LHue
             return retVal;
         }
 
-        async Task<string> Put(string tokenUrl, string qString)
+        internal async Task<string> Put(string url, string contentToPost, string headers, string expectedReturnedFileExtention)
         {
-            var client = new HttpClient();
-            var queryString = UriExtensions.ParseQueryString(new Uri(qString));
-            //var queryString = System.Web.HttpUtility.ParseQueryString(qString);
-            //System.Net.Http.Formatting.JsonMediaTypeFormatter json = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
+            string retVal = await Put(new Uri(url), contentToPost, headers, expectedReturnedFileExtention);
+            Console.WriteLine(retVal);
+            return retVal;
+        }
 
-            string contentType = "application/x-www-form-urlencoded";
-
-            HttpContent requestContent =
-                new StringContent(qString, Encoding.UTF8, contentType);
-
-            //requestContent.Headers.Add("Authorization", "Bearer " + _access_token);
-            requestContent.Headers.Add("If-None-Match", "\"doesnt-match-anything\"");
-
-            var response = await client.PostAsync(tokenUrl, requestContent);
-
-            if (response.IsSuccessStatusCode)
+        internal async Task<string> Put(Uri uri, string contentToPost, string headers, string expectedReturnedFileExtention)
+        {
+            string retVal = "";
+            try
             {
-                string retVal = await response.Content.ReadAsStringAsync();
-                
+                MimeSharp.Mime mime = new MimeSharp.Mime();
 
-                return retVal;
+                using (HttpClient client = new HttpClient())
+                {
+                    NameValueCollection headerCollection = UriExtensions.ParseQueryString(new Uri(uri.AbsoluteUri + "?" + headers));
+                    string contentType = mime.Lookup(expectedReturnedFileExtention);// "application/x-www-form-urlencoded";
+
+                    HttpContent postRequestContent = new StringContent(contentToPost, Encoding.UTF8, contentType);
+
+                    //requestContent.Headers.Add("Authorization", "Bearer " + _access_token);
+
+                    postRequestContent.Headers.TryAddWithoutValidation("If-None-Match", "\"doesnt-match-anything\"");
+                    foreach (string h in headerCollection)
+                    {
+                        postRequestContent.Headers.Add(h, headerCollection[h]);
+                        //Console.WriteLine(headerCollection[h]);
+                    }
+
+                    HttpResponseMessage response = await client.PutAsync(uri, postRequestContent);
+                    //response.EnsureSuccessStatusCode();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        retVal = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine("sent");
+                    }
+                    else
+                    {
+                        retVal = "Error: " + response.StatusCode;
+                    }
+                }
             }
-            else
+            catch (Exception error)
             {
-                return null;
+                retVal = "Error: " + error.Message;
             }
 
+            return retVal;
         }
 
         async Task<string> Delete(string tokenUrl, string qString)

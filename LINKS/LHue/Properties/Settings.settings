@@ -11,5 +11,14 @@
     <Setting Name="StartUpPhrase" Type="System.String" Scope="User">
       <Value Profile="(Default)">Loading Sample Plug-in;Loading Your Custom Plug-in</Value>
     </Setting>
+    <Setting Name="Test_URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">lights/1/state</Value>
+    </Setting>
+    <Setting Name="AccessToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="BridgeIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

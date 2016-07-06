@@ -8,67 +8,90 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LHue.Properties
-{
-
-
+namespace LHue.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point WindowLocation
-        {
-            get
-            {
+        public global::System.Drawing.Point WindowLocation {
+            get {
                 return ((global::System.Drawing.Point)(this["WindowLocation"]));
             }
-            set
-            {
+            set {
                 this["WindowLocation"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LoadOnStart
-        {
-            get
-            {
+        public bool LoadOnStart {
+            get {
                 return ((bool)(this["LoadOnStart"]));
             }
-            set
-            {
+            set {
                 this["LoadOnStart"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Loading Sample Plug-in;Loading Your Custom Plug-in")]
-        public string StartUpPhrase
-        {
-            get
-            {
+        public string StartUpPhrase {
+            get {
                 return ((string)(this["StartUpPhrase"]));
             }
-            set
-            {
+            set {
                 this["StartUpPhrase"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("lights/1/state")]
+        public string Test_URL {
+            get {
+                return ((string)(this["Test_URL"]));
+            }
+            set {
+                this["Test_URL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AccessToken {
+            get {
+                return ((string)(this["AccessToken"]));
+            }
+            set {
+                this["AccessToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BridgeIP {
+            get {
+                return ((string)(this["BridgeIP"]));
+            }
+            set {
+                this["BridgeIP"] = value;
             }
         }
     }
