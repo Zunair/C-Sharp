@@ -99,8 +99,8 @@ namespace LHue
                 LREST lRest = new LREST();
                 for (int i = 200; i <= 254; i++)
                 {
-                    string response = await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + i + "}", "", ".json");
-                    //await lRest.Post("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights", "", "what1=hello 1&what2=2", ".json");
+                    string response = await lRest.Put("http://<IP>/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + i + "}", "", ".json");
+                    //await lRest.Post("http://<IP>/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights", "", "what1=hello 1&what2=2", ".json");
                     Console.WriteLine(response + i);
                 }
                 s.Stop();
@@ -110,7 +110,7 @@ namespace LHue
             {
                 Console.WriteLine(error.Message);
             }
-            //await lRest.Get(new Uri("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights"));
+            //await lRest.Get(new Uri("http://<IP>/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights"));
 
             Console.WriteLine("Get Request Completed.");
 
@@ -146,7 +146,7 @@ namespace LHue
                 {
                     if (Debugger.IsAttached)
                     {
-                        ip = "[{\"id\":\"<bruh>\",\"internalipaddress\":\"73.251.151.39\"}]";
+                        ip = "[{\"id\":\"<bruh>\",\"internalipaddress\":\"<IP>\"}]";
                     }
                     else
                     {
@@ -178,7 +178,7 @@ namespace LHue
                 }
                 else
                 {
-                    //"http://73.251.151.39/api/createUser, ""
+                    //"http://<IP>/api/createUser, ""
                     createUser = await lRest.Post("http://" + ip + "/api", createUser, "", ".json");
                 }
 
@@ -213,7 +213,7 @@ namespace LHue
                 MessageBox.Show("Connection Successfull", "Connected", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //System.Threading.Thread.Sleep(200);
-                //retVal = await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":0}", "", ".json");
+                //retVal = await lRest.Put("http://<IP>/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":0}", "", ".json");
                 //System.Threading.Thread.Sleep(100);
 
                 //sw.Stop();
@@ -314,7 +314,7 @@ namespace LHue
                 string base_url = "http://" + ip  + "/api/" + userId + "/";
                 double bri = ((Slider)sender).Value / 100 * 254;
                 await lRest.Put(base_url + textBox_URL.Text, "{\"bri\":" + bri + "}", "", ".json");
-                //await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + bri + "}", "", ".json");
+                //await lRest.Put("http://<IP>/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + bri + "}", "", ".json");
                 //System.Threading.Thread.Sleep(50);
 
                 //sw.Stop();
