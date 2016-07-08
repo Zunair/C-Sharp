@@ -82,6 +82,7 @@ namespace LSamplePluginWPF
         {
             try
             {
+                
                 if (LINKSInitialized())
                 {
                     jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(test_textBox_Speak.Text);

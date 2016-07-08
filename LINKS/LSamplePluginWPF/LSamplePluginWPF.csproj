@@ -113,6 +113,12 @@
   <ItemGroup>
     <Resource Include="Images\dragcursor_32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LLoquendo\LLoquendo.csproj">
+      <Project>{2332ed03-8b51-4c94-b9cb-a357c290780f}</Project>
+      <Name>LLoquendo</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "%25APPDATA%25\LINKS\Customization\Plugins\"</PostBuildEvent>

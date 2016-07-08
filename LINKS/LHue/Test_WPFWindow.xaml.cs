@@ -170,7 +170,7 @@ namespace LHue
                 Properties.Settings.Default.BridgeIP = ip;
                 Properties.Settings.Default.Save();
 
-
+                //{"devicetype":"LINKS#PC ZUNAIR"}
                 string createUser = "{\"devicetype\":\"LINKS#PC " + Environment.UserName.ToUpper() + "\"}";
                 if (Debugger.IsAttached)
                 {
@@ -178,6 +178,7 @@ namespace LHue
                 }
                 else
                 {
+                    //"http://73.251.151.39/api/createUser, ""
                     createUser = await lRest.Post("http://" + ip + "/api", createUser, "", ".json");
                 }
 
@@ -209,7 +210,7 @@ namespace LHue
 
                 ip = textBox_ip.Text;
                 userId = retVal;
-                MessageBox.Show("Connection Successfull", "Connected", MessageBoxButton.OK, MessageBoxImage.);
+                MessageBox.Show("Connection Successfull", "Connected", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //System.Threading.Thread.Sleep(200);
                 //retVal = await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":0}", "", ".json");
@@ -304,6 +305,7 @@ namespace LHue
         LREST lRest = new LREST();
         private async void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (userId == string.Empty) return;
             //Stopwatch sw = new Stopwatch();
             //sw.Start();
             try

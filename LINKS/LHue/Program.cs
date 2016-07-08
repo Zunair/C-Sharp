@@ -21,7 +21,8 @@ namespace LHue
         private static async void Test()
         {
             LREST lRest = new LREST();
-            await lRest.Get("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights");
+            //await lRest.Get("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights");
+            //await lRest.Delete("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights");
             Console.WriteLine("Get Request Completed.");
             
         }
