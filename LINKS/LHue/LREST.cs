@@ -11,23 +11,23 @@ using System.Xml.XPath;
 
 namespace LHue
 {
-    class LREST
+    public static class LREST
     {
-        public static byte[] ReadFully(Stream input)
-        {
-            byte[] buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
+        //public static byte[] ReadFully(Stream input)
+        //{
+        //    byte[] buffer = new byte[16 * 1024];
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        int read;
+        //        while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+        //        {
+        //            ms.Write(buffer, 0, read);
+        //        }
+        //        return ms.ToArray();
+        //    }
+        //}
 
-        internal async Task<string> Get(string url)
+        public static async Task<string> Get(string url)
         {
             return await Get(new Uri(url));
         }
@@ -37,14 +37,16 @@ namespace LHue
         /// </summary>
         /// <param name="uri">Full URL</param>
         /// <returns>Gets response from get request</returns>
-        internal async Task<string> Get(Uri uri = null)
+        public static async Task<string> Get(Uri uri = null)
         {
             string retVal = "";
-            
+
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
+                    //client.Timeout = TimeSpan.FromSeconds(5);
+
                     HttpResponseMessage response = await client.GetAsync(uri);
                     //response.EnsureSuccessStatusCode();
 
@@ -63,7 +65,7 @@ namespace LHue
             {
                 retVal = "Error: " + error.Message;
             }
-            
+
             return retVal;
         }
 
@@ -75,22 +77,23 @@ namespace LHue
         /// <param name="headers">Http header in query format. I.e &headerElement1="blah 123"&headerElement2=1</param>
         /// <param name="expectedReturnedFileExtention"></param>
         /// <returns></returns>
-        internal async Task<string> Post(string url, string contentToPost, string headers, string expectedReturnedFileExtention)
+        public static async Task<string> Post(string url, string contentToPost, string headers, string expectedReturnedFileExtention)
         {
             return await Post(new Uri(url), contentToPost, headers, expectedReturnedFileExtention);
         }
 
-        internal async Task<string> Post(Uri uri, string contentToPost, string headers, string expectedReturnedFileExtention)
+        public static async Task<string> Post(Uri uri, string contentToPost, string headers, string expectedReturnedFileExtention)
         {
             string retVal = "";
             try
             {
-                MimeSharp.Mime mime = new MimeSharp.Mime();
+                //MimeSharp.Mime mime = new MimeSharp.Mime();
 
                 using (HttpClient client = new HttpClient())
                 {
                     NameValueCollection headerCollection = UriExtensions.ParseQueryString(new Uri(uri.AbsoluteUri + "?" + headers));
-                    string contentType = mime.Lookup(expectedReturnedFileExtention);// "application/x-www-form-urlencoded";
+                    //string contentType = mime.Lookup(expectedReturnedFileExtention);// "application/x-www-form-urlencoded";
+                    string contentType = "application/json"; //"application/x-www-form-urlencoded";
 
                     HttpContent postRequestContent = new StringContent(contentToPost, Encoding.UTF8, contentType);
 
@@ -102,7 +105,7 @@ namespace LHue
                         postRequestContent.Headers.Add(h, headerCollection[h]);
                         //Console.WriteLine(headerCollection[h]);
                     }
-                    
+
                     HttpResponseMessage response = await client.PostAsync(uri, postRequestContent);
                     //response.EnsureSuccessStatusCode();
 
@@ -125,24 +128,26 @@ namespace LHue
             return retVal;
         }
 
-        internal async Task<string> Put(string url, string contentToPost, string headers, string expectedReturnedFileExtention)
+        public static async Task<string> Put(string url, string contentToPost, string headers, string expectedReturnedFileExtention)
         {
             string retVal = await Put(new Uri(url), contentToPost, headers, expectedReturnedFileExtention);
-            Console.WriteLine(retVal);
+            Console.WriteLine("Put: " + url);
+            Console.WriteLine("Response: " + retVal);
             return retVal;
         }
 
-        internal async Task<string> Put(Uri uri, string contentToPost, string headers, string expectedReturnedFileExtention)
+        public static async Task<string> Put(Uri uri, string contentToPost, string headers, string expectedReturnedFileExtention)
         {
             string retVal = "";
             try
             {
-                MimeSharp.Mime mime = new MimeSharp.Mime();
+                //MimeSharp.Mime mime = new MimeSharp.Mime();
 
                 using (HttpClient client = new HttpClient())
                 {
                     NameValueCollection headerCollection = UriExtensions.ParseQueryString(new Uri(uri.AbsoluteUri + "?" + headers));
-                    string contentType = mime.Lookup(expectedReturnedFileExtention);// "application/x-www-form-urlencoded";
+                    //string contentType = mime.Lookup(expectedReturnedFileExtention);// "application/x-www-form-urlencoded";
+                    string contentType = "application/json"; //"application/x-www-form-urlencoded";
 
                     HttpContent postRequestContent = new StringContent(contentToPost, Encoding.UTF8, contentType);
 
@@ -177,22 +182,35 @@ namespace LHue
             return retVal;
         }
 
-        async Task<string> Delete(string tokenUrl, string qString)
+        public static async Task<string> Delete(string url)
+        {
+            string retVal = await Delete(new Uri(url));
+            Console.WriteLine("Delete: " + url);
+            Console.WriteLine("Response: " + retVal);
+            return retVal;
+        }
+
+        public static async Task<string> Delete(Uri uri)
         {
             var client = new HttpClient();
-            var queryString = UriExtensions.ParseQueryString(new Uri(qString));
-            //var queryString = System.Web.HttpUtility.ParseQueryString(qString);
-            //System.Net.Http.Formatting.JsonMediaTypeFormatter json = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
+            //var queryString = UriExtensions.ParseQueryString(new Uri(qString));
+            //NameValueCollection headerCollection = UriExtensions.ParseQueryString(new Uri(uri.AbsoluteUri + "?" + headers));
 
-            string contentType = "application/x-www-form-urlencoded";
 
-            HttpContent requestContent =
-                new StringContent(qString, Encoding.UTF8, contentType);
+            //string contentType = "application/json"; //"application/x-www-form-urlencoded";
+
+            //HttpContent requestContent = new StringContent("", Encoding.UTF8, contentType);
 
             //requestContent.Headers.Add("Authorization", "Bearer " + _access_token);
-            requestContent.Headers.Add("If-None-Match", "\"doesnt-match-anything\"");
+            //requestContent.Headers.Add("If-None-Match", "\"doesnt-match-anything\"");
+            //requestContent.Headers.TryAddWithoutValidation("If-None-Match", "\"doesnt-match-anything\"");
+            //foreach (string h in requestContent)
+            //{
+            //    requestContent.Headers.Add(h, headerCollection[h]);
+            //    //Console.WriteLine(headerCollection[h]);
+            //}
 
-            var response = await client.PostAsync(tokenUrl, requestContent);
+            var response = await client.DeleteAsync(uri);
 
             if (response.IsSuccessStatusCode)
             {

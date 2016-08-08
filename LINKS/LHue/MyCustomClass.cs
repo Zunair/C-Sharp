@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Speech.Synthesis;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,7 +27,9 @@ namespace LHue
             if (myCustomWindow == null)
             {
                 // Creates window instance
-                myCustomWindow = new MyCustomWindow();
+                Configuration c = new Configuration();
+                c.Load();
+                myCustomWindow = new MyCustomWindow();                
             }
 
             return retVal;
@@ -54,8 +59,20 @@ namespace LHue
         {
             string retVal = string.Empty;
 
-            myCustomWindow.FormTest_Close();
-            myCustomWindow = null;
+            try
+            {
+                myCustomWindow.FormTest_Close();
+            }
+            catch(Exception error)
+            {
+                Debugger.Break();
+                Console.WriteLine(error.Message);
+            }
+            finally
+            {
+                myCustomWindow = null;
+            }
+
 
             return retVal;
         }
@@ -76,9 +93,14 @@ namespace LHue
             if (Properties.Settings.Default.LoadOnStart)
             {
                 Test_InitWPFWindow();
+
+                
+
+                //jarvisWPF.PublicClass.SpeechSynth.AttachToVisemeReached((x, y) => Test_WPFWindow.Synthesizer_UpdateAnimation(x, y));
                 //jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(Properties.Settings.Default.StartUpPhrase);
             }
         }
+        
     }
 
 
@@ -94,17 +116,19 @@ namespace LHue
         /// </summary>
         internal MyCustomWindow()
         {
+            //Debugger.Launch();
+            //Debugger.Break();
+
             Thread t = new Thread(InitializeWindow);
             t.SetApartmentState(ApartmentState.STA);
 
             t.Start();
         }
 
-
         /// <summary>
         /// Declare test window
         /// </summary>
-        Test_WPFWindow wpfTest;
+        public Test_WPFWindow wpfTest;
 
         /// <summary>
         /// Method to initialize test window
@@ -112,6 +136,9 @@ namespace LHue
         /// </summary>
         private void InitializeWindow()
         {
+            //Debugger.Launch();
+            //Debugger.Break();
+
             // Initialize Window Instance
             wpfTest = new Test_WPFWindow();
 
@@ -168,10 +195,21 @@ namespace LHue
         /// </summary>
         internal void FormTest_Close()
         {
-            wpfTest.Dispatcher.Invoke(() =>
+            //Debugger.Break();
+            if (wpfTest != null)
             {
-                wpfTest.Close();
-            });
+                if (!wpfTest.IsClosed)
+                {
+                    wpfTest.Dispatcher.Invoke(() =>
+                    {
+
+                        wpfTest.Close();
+                        Console.WriteLine("wpfTest: " + wpfTest.IsClosed);
+                        wpfTest = null;
+
+                    });
+                }
+            }
         }
     }
 }

@@ -5,21 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LHue"
         mc:Ignorable="d"
-        Title="Test WPFWindow" Height="263.686" Width="271.218" AllowsTransparency="True" WindowStyle="None" ShowInTaskbar="False" Background="{x:Null}" Closing="Window_Closing">
+        Title="Hue Minimilistic - Settings" Height="500" Width="380" Closing="Window_Closing" Initialized="window_Initialized" ResizeMode="CanMinimize" Icon="Resources/TrayIcon.ico" Closed="window_Closed">
     <Grid>
-        <Button x:Name="button_Connect" Content="Connect Hue" Margin="26,62,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225" Click="button_Connect_Click" Height="41" Opacity="0.8"/>
-        <TextBox x:Name="textBox_ip" HorizontalAlignment="Left" Height="18" Margin="26,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="225"/>
-        <TextBox x:Name="textBox_slider" HorizontalAlignment="Left" Height="18" Margin="25,179,0,0" TextWrapping="Wrap" Text="{Binding SmallChange, BindsDirectlyToSource=True, ElementName=slider, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" VerticalAlignment="Top" Width="22"/>
-        <TextBox x:Name="textBox_URL" HorizontalAlignment="Left" Height="40" Margin="25,134,0,0" TextWrapping="Wrap" Text="http://&lt;ip&gt;/api/&lt;id&gt;/lights/1/state" VerticalAlignment="Top" Width="225"/>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="20" Margin="237,10,0,0" VerticalAlignment="Top" Width="20" Source="Images/dragcursor_32.png" Opacity="0.2" MouseEnter="image_MouseEnter" MouseLeave="image_MouseLeave"/>
-        <CheckBox x:Name="test_checkBox_LoadOnStart" HorizontalAlignment="Left" Margin="39,218,0,0" VerticalAlignment="Top" IsChecked="{Binding RunOnStart, ElementName=window}" MouseEnter="uiElement_MoustEnter" MouseLeave="uiElement_MoustLeave" Opacity="0.2"/>
-        <Label x:Name="test_labelBlock_LoadOnStart" Foreground="#E500FFFF" Content="LOAD ON START" HorizontalAlignment="Left" Margin="59,213,0,0" VerticalAlignment="Top" Opacity="0.2"/>
         <!--<ComboBox x:Name="test_comboBox" 
                   DataContext="{Binding test_ComboBox_DataProvider, ElementName=window}" 
             	  ItemsSource="{Binding XPath=/ArrayOfVariable/Variable/Name}" 
                   HorizontalAlignment="Left" Margin="25,186,0,0" VerticalAlignment="Top" Width="190" IsDropDownOpen="True" Visibility="Collapsed"/>-->
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="52,172,0,0" VerticalAlignment="Top" Width="198" SmallChange="10" TickFrequency="10" ValueChanged="slider_ValueChanged" Maximum="100" Cursor="Hand" LargeChange="{Binding SmallChange, RelativeSource={RelativeSource Self}}" TickPlacement="Both" IsSnapToTickEnabled="True" Value="100"/>
-        <Button x:Name="button_close" Content="Close" HorizontalAlignment="Left" Margin="186,216,0,0" VerticalAlignment="Top" Width="64" Click="button_close_Click" Opacity="0.2" MouseEnter="btn_uiElement_MoustEnter" MouseLeave="btn_uiElement_MoustLeave" />
-        <Label x:Name="label" Content="Brightness Test:" HorizontalAlignment="Left" Margin="26,108,0,0" VerticalAlignment="Top" Width="224"/>
+        <GroupBox Header="Test" Visibility="Collapsed">
+            <Grid Margin="62,346,53,17">
+                <TextBox x:Name="textBox_slider" HorizontalAlignment="Left" Height="18" Margin="0,71,0,0" TextWrapping="Wrap" Text="{Binding SmallChange, BindsDirectlyToSource=True, ElementName=slider, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" VerticalAlignment="Top" Width="22"/>
+                <TextBox x:Name="textBox_URL" HorizontalAlignment="Left" Height="40" Margin="0,26,0,0" TextWrapping="Wrap" Text="lights/1/state" VerticalAlignment="Top" Width="226"/>
+                <Slider x:Name="slider" HorizontalAlignment="Left" Margin="27,64,0,0" VerticalAlignment="Top" Width="199" SmallChange="10" TickFrequency="10" ValueChanged="slider_ValueChanged" Maximum="100" Cursor="Hand" LargeChange="{Binding SmallChange, RelativeSource={RelativeSource Self}}" TickPlacement="Both" IsSnapToTickEnabled="True" Value="100"/>
+                <Label x:Name="label" Content="Brightness Test:" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Top" Width="224"/>
+            </Grid>
+        </GroupBox>
+
+        <TextBlock x:Name="label_Title" Text="PHILIPS HUE" Margin="32,16,32,0" VerticalAlignment="Top" FontFamily="Futurist Fixed-width" FontWeight="ExtraBold" TextAlignment="Center" LineHeight="16" FontSize="16"/>
+
+        <GroupBox Header="Add Bridge" Margin="32,54,32,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="288" BorderThickness="1">
+            <Grid Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBox x:Name="textBox_name" HorizontalAlignment="Left" Height="20" Margin="87,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="128"/>
+                <TextBox x:Name="textBox_ip" HorizontalAlignment="Left" Height="18" Margin="65,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <Label x:Name="label_name" Content="Bridge Name:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.073,0.654"/>
+                <Label x:Name="label_ip" Content="Bridge IP:" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="button_AddBridge" Content="Add Bridge" Margin="0,50,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="215" Height="24" Opacity="0.8" Click="button_AddBridge_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Current Bridge" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="32,213,32,0" Width="288" BorderThickness="1">
+            <Grid Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <CheckBox x:Name="test_checkBox_LoadOnStart" HorizontalAlignment="Left" Margin="0,27,0,0" VerticalAlignment="Top" IsChecked="{Binding RunOnStart, ElementName=window}" MouseEnter="uiElement_MoustEnter" MouseLeave="uiElement_MoustLeave" Opacity="0.2" Content="Load on startup" ToolTip="Makes LINKS load it as a plugin on start." RenderTransformOrigin="0.404,0.733"/>
+                <Button x:Name="button_close" Content="Exit" HorizontalAlignment="Left" Margin="0,116,0,0" VerticalAlignment="Top" Width="215" Click="button_close_Click" Height="24" Opacity="0.8"/>
+                <CheckBox x:Name="checkBox_SetAsDefault" Content="Set as default" HorizontalAlignment="Left" Margin="124,27,0,0" VerticalAlignment="Top" IsChecked="True" Checked="checkBox_SetAsDefault_Checked" RenderTransformOrigin="-0.033,0.667"/>
+                <Button x:Name="button_showLights" Content="Show Lights" HorizontalAlignment="Left" Margin="0,57,0,0" VerticalAlignment="Top" Width="215" Click="button_showLights_Click" Opacity="0.8" Height="24"/>
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215" SelectionChanged="comboBox_SelectionChanged"/>
+                <Button x:Name="button_Minimize" Content="Hide Settings" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top" Width="215" Height="24" Opacity="0.8" Click="button_Minimize_Click"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>

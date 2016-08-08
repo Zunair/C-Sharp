@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Q42.HueApi;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
+using System.Linq;
+using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -26,8 +26,7 @@ namespace LHue
         bool runOnStart = true;
         protected string userId = string.Empty;
         protected string ip = string.Empty;
-        XmlDataProvider test_comboBox_DataProvider = null;
-
+        
         public bool RunOnStart
         {
             get
@@ -42,26 +41,13 @@ namespace LHue
         }
 
         /// <summary>
-        /// Used by combo box
-        /// </summary>
-        public XmlDataProvider test_ComboBox_DataProvider
-        {
-            get
-            {
-                if (test_comboBox_DataProvider == null)
-                {
-                    test_comboBox_DataProvider = new XmlDataProvider();
-                    test_comboBox_DataProvider.Source = new Uri(AppData + "\\LINKS\\Customization\\XML\\UserVariables.xml");
-                }
-                return test_comboBox_DataProvider;
-            }
-        }
-
-        /// <summary>
         /// Initializes window
         /// </summary>
         public Test_WPFWindow()
         {
+            //Debugger.Launch();
+            //Debugger.Break();
+            
             InitializeComponent();
 
             // Attaches drag window event
@@ -70,51 +56,9 @@ namespace LHue
             Left = Properties.Settings.Default.WindowLocation.X;
             Top = Properties.Settings.Default.WindowLocation.Y;
 
-            textBox_URL.Text = Properties.Settings.Default.Test_URL;
-            textBox_ip.Text = Properties.Settings.Default.BridgeIP;
-            ip = textBox_ip.Text;
-            if (Properties.Settings.Default.AccessToken != string.Empty)
-            {
-                textBox_ip.IsEnabled = false;
-                button_Connect.IsEnabled = false;
-                byte[] bytes = Convert.FromBase64String(Properties.Settings.Default.AccessToken);
-                userId = Encoding.UTF8.GetString(bytes);
-            }
-            else
-            {
-                //if (MessageBox.Show("Press the link button on Hue bridge then click OK.", "Connect", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
-                //{
-                //    button_Connect_Click(this, null);
-                //}
-            }
-            //Test();
+            InitializeContextMenu();
         }
 
-        private static async void Test()
-        {
-            try
-            {
-                Stopwatch s = new Stopwatch();
-                s.Start();
-                LREST lRest = new LREST();
-                for (int i = 200; i <= 254; i++)
-                {
-                    string response = await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + i + "}", "", ".json");
-                    //await lRest.Post("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights", "", "what1=hello 1&what2=2", ".json");
-                    Console.WriteLine(response + i);
-                }
-                s.Stop();
-                Console.WriteLine(s.Elapsed);
-            }
-            catch(Exception error)
-            {
-                Console.WriteLine(error.Message);
-            }
-            //await lRest.Get(new Uri("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights"));
-
-            Console.WriteLine("Get Request Completed.");
-
-        }
         /// <summary>
         /// Allows to drag window
         /// </summary>
@@ -123,127 +67,25 @@ namespace LHue
             DragMove();
         }
 
+        public Configuration config = new Configuration();
+        List<SwitchView> SwitchWindows = new List<SwitchView>();
+        
+
         /// <summary>
         /// Speak Button Click event
         /// </summary>
-        private async void button_Connect_Click(object sender, RoutedEventArgs e)
+        private void button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            try
+            Test_WPFWindow currentWindow = this;
+            currentBridge = config.SelectBridge(currentWindow.comboBox.SelectedValue.ToString());
+            if ((bool)currentWindow.checkBox_SetAsDefault.IsChecked)
             {
-                //if (LINKSInitialized())
-                //{
-                //    jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(textBox_ip.Text);
-                //}
-                string retVal = "";
-                //LREST lRest = new LREST();
-                //Stopwatch sw = new Stopwatch();
-                //sw.Start();
-                string ip = Properties.Settings.Default.BridgeIP;
-                
-
-                //JObject jResponse = (JObject)JsonConvert.DeserializeObject(ip);
-                if (ip != "127.0.0.1" | ip != string.Empty)
-                {
-                    if (Debugger.IsAttached)
-                    {
-                        ip = "[{\"id\":\"<bruh>\",\"internalipaddress\":\"73.251.151.39\"}]";
-                    }
-                    else
-                    {
-                        ip = await lRest.Get("https://www.meethue.com/api/nupnp");
-                    }
-                    JArray jResponse = (JArray)JsonConvert.DeserializeObject(ip);
-                    if (jResponse.Count > 0)
-                    {
-                        ip = jResponse[0]["internalipaddress"].ToString();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Can not find Philips Hue SmartHub.\r\nPlease plugin your hue hub and click connect again or type the IP manually.", "Failed to Find Hub", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        ip = "127.0.0.1";
-                        return;
-                    }
-
-                    textBox_ip.Text = ip;
-
-                }
-                Properties.Settings.Default.BridgeIP = ip;
-                Properties.Settings.Default.Save();
-
-                //{"devicetype":"LINKS#PC ZUNAIR"}
-                string createUser = "{\"devicetype\":\"LINKS#PC " + Environment.UserName.ToUpper() + "\"}";
-                if (Debugger.IsAttached)
-                {
-                    createUser = "[{\"success\":{\"username\":\"7ngKxvpo5fuLWLmCZfb42KzvKSYlA6gGgX4CYFtN\"}}]";
-                }
-                else
-                {
-                    //"http://73.251.151.39/api/createUser, ""
-                    createUser = await lRest.Post("http://" + ip + "/api", createUser, "", ".json");
-                }
-
-                try
-                {
-                    try
-                    {
-                        JArray jResponseO = (JArray)JsonConvert.DeserializeObject(createUser);
-                        retVal = jResponseO[0]["success"]["username"].ToString();
-                    }
-                    catch
-                    {
-                        JArray jResponse = (JArray)JsonConvert.DeserializeObject(createUser);
-                        if (jResponse.Count > 0)
-                        {                            
-                            MessageBox.Show(jResponse[0]["error"]["description"] + "\r\n Please press the button on the hue bridge and try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                    }
-                }
-                catch(Exception error)
-                {
-                    MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                byte[] bytes = Encoding.UTF8.GetBytes(retVal);
-                Properties.Settings.Default.AccessToken = Convert.ToBase64String(bytes);
-
-                ip = textBox_ip.Text;
-                userId = retVal;
-                MessageBox.Show("Connection Successfull", "Connected", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //System.Threading.Thread.Sleep(200);
-                //retVal = await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":0}", "", ".json");
-                //System.Threading.Thread.Sleep(100);
-
-                //sw.Stop();
-
-                //Console.WriteLine("Get Request Completed in " + sw.Elapsed);
-
-                
+                config.SetAsDefault(currentBridge.Name);
+                config.Save();
             }
-            catch (Exception error)
-            {
-                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
 
-        /// <summary>
-        /// Emulate Button Click event
-        /// </summary>
-        private void test_button_emulate_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (LINKSInitialized())
-                {
-                    //jarvisWPF.Classes.Plugins.PluginController.EmulateSpeech(test_textBox_Emulate.Text);
-                }
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error.Message);
-            }
+            currentWindow.textBox_ip.Text = currentBridge.Ip;
+            currentWindow.textBox_name.Text = currentBridge.Name;            
         }
 
         /// <summary>
@@ -268,6 +110,12 @@ namespace LHue
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            TrayIcon_RemoveEvents();
+            SwitchWindows.ForEach(a => a.Close());
+            config.Save();
+
+            //Properties.Settings.Default.Test_URL = textBox_URL.Text;
+            //Properties.Settings.Default.Save();
             Properties.Settings.Default.WindowLocation = new System.Drawing.Point((int)Left, (int)Top);
             Properties.Settings.Default.LoadOnStart = RunOnStart;
             Properties.Settings.Default.Save();
@@ -278,7 +126,7 @@ namespace LHue
             CheckBox chkBox = (CheckBox)sender;
             DoubleAnimation ani = new DoubleAnimation(1, TimeSpan.FromMilliseconds(100));
             chkBox.BeginAnimation(OpacityProperty, ani);
-            test_labelBlock_LoadOnStart.BeginAnimation(OpacityProperty, ani);
+            //test_labelBlock_LoadOnStart.BeginAnimation(OpacityProperty, ani);
         }
 
         private void test_checkBox_LoadOnStart_MouseLeave(object sender, MouseEventArgs e)
@@ -286,7 +134,7 @@ namespace LHue
             CheckBox chkBox = (CheckBox)sender;
             DoubleAnimation ani = new DoubleAnimation(.08, TimeSpan.FromMilliseconds(100));
             chkBox.BeginAnimation(OpacityProperty, ani);
-            test_labelBlock_LoadOnStart.BeginAnimation(OpacityProperty, ani);
+            //test_labelBlock_LoadOnStart.BeginAnimation(OpacityProperty, ani);
         }
 
         public bool LINKSInitialized()
@@ -302,7 +150,6 @@ namespace LHue
             return retVal;
         }
 
-        LREST lRest = new LREST();
         private async void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (userId == string.Empty) return;
@@ -313,7 +160,7 @@ namespace LHue
 
                 string base_url = "http://" + ip  + "/api/" + userId + "/";
                 double bri = ((Slider)sender).Value / 100 * 254;
-                await lRest.Put(base_url + textBox_URL.Text, "{\"bri\":" + bri + "}", "", ".json");
+                await LREST.Put(base_url + textBox_URL.Text, "{\"bri\":" + bri + "}", "", ".json");
                 //await lRest.Put("http://73.251.151.39/api/lz3nFIcGOelQlsxsDJYqrXGuxivjFmWswZ9fIGcw/lights/1/state", "{\"bri\":" + bri + "}", "", ".json");
                 //System.Threading.Thread.Sleep(50);
 
@@ -330,21 +177,18 @@ namespace LHue
 
         private void button_close_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.Test_URL = textBox_URL.Text;
-            Properties.Settings.Default.Save();
-            lRest = null;
             this.Close();
         }
 
         private void uiElement_MoustEnter(object sender, MouseEventArgs e)
         {
-            AnimateUI.Fade(new object[] { sender, test_labelBlock_LoadOnStart }, UIAnimations.FadeType.In);
+            //AnimateUI.Fade(new object[] { sender, test_labelBlock_LoadOnStart }, UIAnimations.FadeType.In);
             
         }
 
         private void uiElement_MoustLeave(object sender, MouseEventArgs e)
         {
-            AnimateUI.Fade(new object[] { sender, test_labelBlock_LoadOnStart }, UIAnimations.FadeType.Out);
+            //AnimateUI.Fade(new object[] { sender, test_labelBlock_LoadOnStart }, UIAnimations.FadeType.Out);
         }
 
         private void btn_uiElement_MoustEnter(object sender, MouseEventArgs e)
@@ -355,6 +199,225 @@ namespace LHue
         private void btn_uiElement_MoustLeave(object sender, MouseEventArgs e)
         {
             AnimateUI.Fade(new object[] { sender }, UIAnimations.FadeType.Out);
+        }
+
+        Bridge currentBridge = new Bridge();
+        private async void window_Initialized(object sender, EventArgs e)
+        {
+            try
+            {
+                config.Load();
+                if (config.Bridges.Count == 0)
+                {
+                    await Dispatcher.BeginInvoke(new Action(async delegate
+                    {
+                        this.textBox_ip.Text = await currentBridge.TryGetIP(); // same thread or object that it can use
+                }));
+
+                    //textBox_ip.Text = await currentBridge.TryGetIP(); // diffrent thread
+                }
+                else
+                {
+                    await Dispatcher.BeginInvoke(new Action(delegate
+                    {
+                        ((Test_WPFWindow)sender).comboBox.ItemsSource = config.Bridges.Select(b => b.Name);
+                    }));
+
+
+                    currentBridge = config.DefaultBridge;
+                    if (currentBridge != null)
+                    {
+                        await Dispatcher.BeginInvoke(new Action(delegate
+                        {
+                            this.comboBox.SelectedValue = currentBridge.Name;
+                            this.textBox_ip.Text = currentBridge.Ip;
+                            this.textBox_name.Text = currentBridge.Name;
+                            this.checkBox_SetAsDefault.IsChecked = currentBridge.IsDefault;
+                        }));
+                        // TODO: Check if bridge is reachable
+                        // Notify visually
+                        // Enable commands
+
+                    }
+                }
+                TrayIcon_AttachEvents();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Error 03: " + error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
+        private async void button_showLights_Click(object sender, RoutedEventArgs e)
+        {
+            //Debugger.Break();
+
+            try
+            {
+                ((Button)sender).IsEnabled = false;
+
+                var bridge = await currentBridge.Client.GetBridgeAsync();
+
+
+                //var lights = await currentBridge.Client.GetLightsAsync();
+                if (bridge.Lights.Count() == 0)
+                {
+                    MessageBox.Show("No lights found.", "Lights - Not Found", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+
+                    //Response webResponse = await currentBridge.GetResponse();
+
+                    // Discard all windows that were closed
+                    SwitchWindows.RemoveAll(s => s.IsClosed);
+
+                    foreach (Light light in bridge.Lights)
+                    {
+                        //string lSwitchID = light.Key + currentBridge.Name;
+                        //if (!SwitchWindows.Exists(s => s.lSwitchID == lSwitchID))
+                        if (!SwitchWindows.Exists(s => s.LSwitch.Id == light.Id && s.CurrentBridge.Name == currentBridge.Name))
+                        {
+                            SwitchWindows.Add(new SwitchView(light, currentBridge, ref SwitchWindows));
+                            Console.WriteLine("Window Created: " + light.Name);
+                        }
+                        //Console.WriteLine(light.Key);
+                        //Console.WriteLine(light.Value["name"]);
+                        //Console.WriteLine(light.Value["state"]["on"]);
+                    }
+
+
+                    // Show all switch windows
+                    SwitchWindows.ForEach(a => a.Show());
+
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                if (error.InnerException != null)
+                    MessageBox.Show(error.InnerException.Message, "Inner Exception", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            finally
+            {
+                ((Button)sender).IsEnabled = true;
+            }
+        }
+
+        static DateTime lastLightUpdate = DateTime.Now;
+        public static void Synthesizer_UpdateAnimation(object sender, VisemeReachedEventArgs e)
+        {
+            if (lastLightUpdate.AddMilliseconds(9) < DateTime.Now)
+            {
+                if (Global.LINKS_Viseme != null && Global.LINKS_Viseme.IsInitialized)
+                {
+                    Console.WriteLine(e.Viseme + " from links.");
+                    Console.WriteLine("Synth: " + ((SwitchView)sender).Title);
+                    //LINKS_Viseme.SwitchDimmer(LINKS_Viseme, e.Viseme);
+                    lastLightUpdate = DateTime.Now;
+                }
+            }
+        }
+
+        private async void button_AddBridge_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                await Dispatcher.BeginInvoke(new Action(delegate
+                {
+                    this.button_AddBridge.IsEnabled = false;
+                }));
+                
+
+                bool readyToAdd = true;
+                Bridge newBridge = new Bridge();
+                newBridge.Ip = this.textBox_ip.Text;
+                newBridge.Name = this.textBox_name.Text;
+
+                if (config.BridgeExists(newBridge.Name))
+                {
+                    if (MessageBox.Show("This bridge name is already taken, press OK to UnLink this bridge and Link the new bridge with same name.",
+                                        "Already Exists", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                    {
+                        // TODO: UnLink bridge
+                        currentBridge = config.SelectBridge(newBridge.Name);
+
+                        if (await currentBridge.UnLink(currentBridge.UserId))
+                        {
+                            // Remove bridge from config
+                            config.RemoveBridge(newBridge.Name);
+                            config.Save();
+
+                        }
+                        else
+                        {
+                            readyToAdd = false;
+                            MessageBox.Show("Please use another name, can not replace this bridge at this time.");
+                        }
+                    }
+                    else
+                    {
+                        readyToAdd = false;
+                    }
+                }
+
+                if (readyToAdd)
+                {
+                    MessageBox.Show("Press LINK button on the hue bridge then click OK.");
+                    if (await newBridge.LinkBridge(textBox_name.Text, textBox_ip.Text))
+                    {
+                        newBridge.IsDefault = (bool)checkBox_SetAsDefault.IsChecked;
+                        config.AddBridge(newBridge);
+                        config.Save();
+                        currentBridge = config.SelectBridge(newBridge.Name);
+                        MessageBox.Show("Connected.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Try again after pressing LINK button on the hue bridge.");
+                    }
+                }
+
+                await Dispatcher.BeginInvoke(new Action(delegate
+                {
+                    this.button_AddBridge.IsEnabled = true;
+                }));
+
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show("Error 02: " + error.Message);
+            }
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Test_WPFWindow currentWindow = this;
+
+            if (currentWindow.comboBox.SelectedValue != null)
+            {
+                currentBridge = config.SelectBridge(currentWindow.comboBox.SelectedValue.ToString());
+                currentWindow.textBox_ip.Text = currentBridge.Ip;
+                currentWindow.textBox_name.Text = currentBridge.Name;
+                currentWindow.checkBox_SetAsDefault.IsChecked = currentBridge.IsDefault;
+            }
+        }
+
+        private void checkBox_SetAsDefault_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)((CheckBox)sender).IsChecked && currentBridge.Name != string.Empty)
+            {
+                config.SetAsDefault(currentBridge.Name);
+                config.Save();
+            }
+        }
+
+        
+        public bool IsClosed = false;
+        private void window_Closed(object sender, EventArgs e)
+        {
+            IsClosed = true;
         }
     }
 }
