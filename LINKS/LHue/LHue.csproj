@@ -43,6 +43,7 @@
     <Reference Include="jarvisWPF">
       <HintPath>..\..\..\..\..\AppData\Roaming\LINKS\Customization\Plugins\jarvisWPF.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Devices.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="LREST.cs" />
     <Compile Include="MyCustomClass.cs" />

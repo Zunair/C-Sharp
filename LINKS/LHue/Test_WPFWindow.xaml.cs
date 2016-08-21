@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Speech.Synthesis;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace LHue
@@ -68,7 +71,7 @@ namespace LHue
         }
 
         public Configuration config = new Configuration();
-        List<SwitchView> SwitchWindows = new List<SwitchView>();
+        public List<SwitchView> SwitchWindows = new List<SwitchView>();
         
 
         /// <summary>
@@ -201,7 +204,7 @@ namespace LHue
             AnimateUI.Fade(new object[] { sender }, UIAnimations.FadeType.Out);
         }
 
-        Bridge currentBridge = new Bridge();
+        public Bridge currentBridge = new Bridge();
         private async void window_Initialized(object sender, EventArgs e)
         {
             try
@@ -418,6 +421,142 @@ namespace LHue
         private void window_Closed(object sender, EventArgs e)
         {
             IsClosed = true;
+        }
+
+        public void Play1(string sound)
+        {
+            MediaElement m = new MediaElement();
+            main_grid.Children.Add(m);
+            MediaTimeline mT = new MediaTimeline(new Uri(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Hover_buttons.wav"));
+            Storyboard.SetTarget(mT, media);
+            Storyboard.SetTarget(mT, m);
+            Storyboard s = new Storyboard();
+            s.Children.Add(mT);
+            s.Begin();
+        }
+
+        
+        //fail
+        public void Play2(string sound)
+        {
+            MediaElement m = new MediaElement();
+            MediaTimeline mT = new MediaTimeline(new Uri(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Hover_buttons.wav"));
+            Storyboard s = new Storyboard();
+            main_grid.Children.Add(m);
+            Storyboard.SetTarget(mT, media);
+            Storyboard.SetTarget(mT, m);
+
+            s.Children.Add(mT);
+            System.Threading.Tasks.Task.Run(() =>
+            {                
+                s.Begin();
+            });
+            System.Threading.Tasks.Task.WaitAll();
+
+        }
+
+        //works
+        public void Play3(string sound)
+        {
+            Window w = new Window();
+            Grid g = new Grid();
+            w.Content = g;
+            w.Visibility = Visibility.Collapsed;
+            w.Show();
+            MediaElement m = new MediaElement();
+            g.Children.Add(m);
+            MediaTimeline mT = new MediaTimeline(new Uri(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Hover_buttons.wav"));
+            Storyboard.SetTarget(mT, media);
+            Storyboard.SetTarget(mT, m);
+            Storyboard s = new Storyboard();
+            s.Children.Add(mT);
+            s.Begin();
+        }
+
+
+        static SoundEffectsPlayer AudioPlayer1 = new SoundEffectsPlayer();
+        static SoundEffectsPlayer AudioPlayer2 = new SoundEffectsPlayer();
+        static SoundEffectsPlayer AudioPlayer3 = new SoundEffectsPlayer();
+        static SoundEffectsPlayer AudioPlayer4 = new SoundEffectsPlayer();
+        public void Play(string sound, int player)
+        {
+            //System.Threading.Tasks.Task.Run(() =>
+            //{
+            //    tClass tC = new tClass();
+            //    tC.Play(sound);
+            //});
+            //tC.Play(sound);
+
+            Thread t = new Thread(()=>
+            {
+                switch (player)
+                {
+                    case 1:
+                        AudioPlayer1.Play(sound);
+                        break;
+                    case 2:
+                        AudioPlayer2.Play(sound);
+                        break;
+                    case 3:
+                        AudioPlayer3.Play(sound);
+                        break;
+                    case 4:
+                        AudioPlayer4.Play(sound);
+                        break;
+                }
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.IsBackground = true;
+            t.Start();
+
+            //tC.Play("C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Show_Window.wav");
+        }
+
+        class SoundEffectsPlayer : Window
+        {
+            MediaElement m = null;
+            MediaTimeline mT = null;
+            Grid g = null;
+
+            public SoundEffectsPlayer()
+            {
+                WindowStyle = WindowStyle.None;
+                Visibility = Visibility.Hidden;
+                WindowState = WindowState.Normal;
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                ShowInTaskbar = false;
+                Opacity = 0;
+                Width = 0;
+                Height = 0;
+                WindowStartupLocation = 0;
+
+                g = new Grid();
+                Content = g;    
+                m = new MediaElement();
+                g.Children.Add(m);
+
+                Show();
+                Hide();
+            }
+
+            public void Play(string sound)
+            {
+                Dispatcher.BeginInvoke((Action)(() => 
+                {
+                    Storyboard s = null;
+                    mT = new MediaTimeline(new Uri(sound));
+                    Storyboard.SetTarget(mT, m);
+                    s = new Storyboard();
+                    s.Children.Add(mT);
+                    s.Completed += S_Completed;
+                    s.Begin();                    
+                }));
+            }
+
+            private void S_Completed(object sender, EventArgs e)
+            {
+                Close();
+            }
         }
     }
 }

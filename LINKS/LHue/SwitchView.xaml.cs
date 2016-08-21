@@ -167,7 +167,7 @@ namespace LHue
             uiElement.BeginAnimation(ProgressBar.ValueProperty, ani);
         }
 
-        private async Task<HueResults> SwitchState(bool? isOn = null, double? brightness = null, RGBColor? hue = null)
+        public async Task<HueResults> SwitchState(bool? isOn = null, double? brightness = null, RGBColor? hue = null)
         {
             //string state = "lights/" + LSwitch.Key + "/state";
             //await LREST.Put(base_url + state, "{\"on\":" + isOn.ToString().ToLower() + ", \"transitiontime\":0}", "", ".json");

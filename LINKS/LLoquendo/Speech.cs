@@ -29,9 +29,16 @@ namespace LLoquendo
             {
                 if (jarvisWPF.PublicClass.SpeechSynth != null)
                 {
+                    System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+                    stopWatch.Start();
+
                     while (jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Count > 0)
                     {
                         System.Threading.Thread.Sleep(300);
+                        if (stopWatch.Elapsed.Seconds > 30)
+                        {
+                            jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Clear();
+                        }
                     }
                 }
             }
@@ -111,53 +118,7 @@ namespace LLoquendo
             SpeechSynth.FirstOrDefault().LoquendoX.Resume();
             return "";
         }
-
-
-        static void Main(string[] args)
-        {
-            Console.Title = "LINKS - Loquendo Plugin";                      
-            
-            Console.WriteLine(((AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title);
-            Console.WriteLine("Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Console.WriteLine(((AssemblyCopyrightAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright + " " + "All Rights Reserved");                        
-            Console.WriteLine("================================================================================");
-            Console.WriteLine();
-            Console.WriteLine("Syntax:");
-            Console.WriteLine("  [LLoquendo.Speech.Speak(\"phrase\",\"volume\",\"rate\",\"voice\")]");
-            Console.WriteLine("  [LLoquendo.Speech.Stop(\"phrase to speak after stop speaking\")]");
-            Console.WriteLine("  [LLoquendo.Speech.Stop()]");
-            Console.WriteLine("  [LLoquendo.Speech.Pause()]");
-            Console.WriteLine("  [LLoquendo.Speech.Resume()]");
-            Console.WriteLine("  [LLoquendo.Speech.RepeatLastPhrase()]");
-            Console.WriteLine();
-            Console.WriteLine("Sample action from LINKS:");
-            Console.WriteLine("  LLoquendo.Speech.Speak(\"I am Kate.\\voice=Simon I am Simon.\",\"100\",\"50\",\"Kate\")");
-            Console.WriteLine();
-            Console.WriteLine("================================================================================");
-            Console.WriteLine();
-
-            try
-            {
-                Console.WriteLine("Testing Kate's and Simon's voice...");
-                LLoquendo.Speech.Speak("I am Kate.\\voice=Simon I am Simon.", "100", "50", "Kate");
-                LLoquendo.Speech.Speak("Simon again.", "100", "10", "Simon");
-                Console.WriteLine("Testing Simon's voice...");
-                LLoquendo.Speech.Speak("And Kate again.", "100", "50", "");
-                Console.WriteLine("Testing Kates's voice...");
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Error: " + error.Message);
-                Console.WriteLine("Please install Loquendo SDK to use this plugin.");                
-            }
-
-            Console.WriteLine();
-            Console.Write("Press any key to exit.");
-            Console.ReadKey();
-            //string t = GetParsedPhrase("\\hello_01 what time is it", PhraseFor.Loquendo);
-            //t = GetParsedPhrase("\\hello_01 what time is it", PhraseFor.Other);
-        }
+        
     }
 
 
@@ -204,7 +165,16 @@ namespace LLoquendo
             LoquendoX.SetAttribute("TextFormat", "SSML");
             LoquendoX.AudioChannels = "Stereo";
             LoquendoX.Device = 0;
-            LoquendoX.Volume = 100;
+            LoquendoX.Volume = 50;
+            try
+            {
+                LoquendoX.Volume = jarvisWPF.PublicClass.SpeechSynth.VoiceConfigs.Get(Voice).VoiceVolume;
+            }
+            catch
+            {
+                Console.WriteLine("Can't get volume from LINKS...");
+                //System.Diagnostics.Debugger.Break();
+            }
             //LoquendoX.EndOfSpeech += new _DLTTS7Events_EndOfSpeechEventHandler(Loquendo_EndOfSpeech);
         }
 
@@ -253,12 +223,11 @@ namespace LLoquendo
 //#if LINKSEXISTS
                         try
                         {
-                            volume = jarvisWPF.PublicClass.SpeechSynth.VoiceConfigs.Get(Voice).VoiceVolume.ToString();
+                            volume = "20";
                         }
                         catch
                         {
                             Console.WriteLine("Can't get volume from LINKS...");
-                            //System.Diagnostics.Debugger.Break();
                         }
 //#endif
                     }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LHue"
         mc:Ignorable="d"
         Title="Hue Minimilistic - Settings" Height="500" Width="380" Closing="Window_Closing" Initialized="window_Initialized" ResizeMode="CanMinimize" Icon="Resources/TrayIcon.ico" Closed="window_Closed">
-    <Grid>
+    <Grid x:Name="main_grid">
         <!--<ComboBox x:Name="test_comboBox" 
                   DataContext="{Binding test_ComboBox_DataProvider, ElementName=window}" 
             	  ItemsSource="{Binding XPath=/ArrayOfVariable/Variable/Name}" 
@@ -41,5 +41,10 @@
                 <Button x:Name="button_Minimize" Content="Hide Settings" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top" Width="215" Height="24" Opacity="0.8" Click="button_Minimize_Click"/>
             </Grid>
         </GroupBox>
-    </Grid>
+        <MediaElement Name="media">
+            
+        </MediaElement>
+    </Grid>    
+
+    
 </Window>

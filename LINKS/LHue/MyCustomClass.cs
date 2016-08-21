@@ -11,9 +11,9 @@ using System.Windows.Threading;
 
 namespace LHue
 {
-    public class MyCustomClass
+    public partial class Functions
     {
-        private static MyCustomWindow myCustomWindow;
+        public static MyCustomWindow myCustomWindow;
 
         /// <summary>
         /// Initializes a new instance of WPF window
@@ -108,13 +108,13 @@ namespace LHue
     /// This sample class is used to initialize and access window's UI elements from LINKS
     /// Note that we have to invoke the window if we want to access any of the UI elements from LINKS
     /// </summary>
-    internal class MyCustomWindow
+    public class MyCustomWindow
     {
         /// <summary>
         /// Initializes class
         /// Initializes wpf window in a new thread
         /// </summary>
-        internal MyCustomWindow()
+        public MyCustomWindow()
         {
             //Debugger.Launch();
             //Debugger.Break();
@@ -140,8 +140,27 @@ namespace LHue
             //Debugger.Break();
 
             // Initialize Window Instance
-            wpfTest = new Test_WPFWindow();
+            wpfTest = new Test_WPFWindow();            
 
+            //wpfTest.Play(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Hover_buttons.wav",1);
+            //Thread.Sleep(200);
+            //Thread.Sleep(2000);
+
+            //wpfTest.Play(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Hover_main_button.wav",2);
+            //Thread.Sleep(200);
+            //Thread.Sleep(2000);
+
+            //wpfTest.Play(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Media_KeyPress.wav",3);
+            //Thread.Sleep(200);
+            //Thread.Sleep(2000);
+
+            //wpfTest.Play(@"C:\Users\Zunair\AppData\Roaming\LINKS\Customization\Sound Effects\Speech_Pause.wav",4);
+            //Thread.Sleep(200);
+            //Thread.Sleep(4000);
+
+            //Task.WaitAll();
+            Thread.Sleep(200);
+            Console.WriteLine("");
             try
             {
                 if (wpfTest.LINKSInitialized())

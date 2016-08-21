@@ -79,9 +79,9 @@ namespace PluginLoader
             File.SetAttributes(config_xml, FileAttributes.Hidden);
         }
 
-        public Plugin AddPlugin(string FullName, string FullExeOrDLLPath)
+        public Plugin AddPlugin(string FullName, string FullExeOrDLLPath, string Version)
         {
-            Plugin p = new Plugin(FullName, FullExeOrDLLPath);
+            Plugin p = new Plugin(FullName, FullExeOrDLLPath, Version);
             return AddPlugin(p);
         }
 
@@ -92,7 +92,8 @@ namespace PluginLoader
             try
             {
                 Assembly a = Assembly.LoadFrom(FullExeOrDLLPath);
-                Plugin p = AddPlugin(a.FullName, a.Location);
+                string v = a.GetName().Version.ToString();
+                Plugin p = AddPlugin(a.FullName, a.Location, v.Split('.')[0] + "." + v.Split('.')[1]);
 
                 var test = a.GetTypes();
                 test = null;
@@ -175,17 +176,19 @@ namespace PluginLoader
         {
         }
 
-        public Plugin(string Name, string Path)
+        public Plugin(string Name, string Path, string Version)
         {
             this.FullPath = Path;
             this.FullName = Name;
             this.Enabled = false;
+            this.Version = Version;
         }
 
         private string fullName;
         private string name;
         private string fullPath;
         private bool enabled;
+        private string version = null;
 
 
         [XmlAttribute("Name", DataType = "string")]
@@ -242,6 +245,20 @@ namespace PluginLoader
             set
             {
                 enabled = value;
+            }
+        }
+
+        [XmlAttribute("Version", DataType = "string")]
+        public string Version
+        {
+            get
+            {
+                return version;
+            }
+
+            set
+            {
+                version = value;
             }
         }
     }
