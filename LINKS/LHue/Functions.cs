@@ -60,6 +60,52 @@ namespace LHue
                             await light.SwitchState(true, 20, null);
                         }
                         break;
+
+                    case LightsCommand.medium:
+                        if (light.LSwitch.State.On && light.LSwitch.State.Brightness == 50)
+                        {
+                            stateAlready = true;
+                        }
+                        else
+                        {
+                            await light.SwitchState(true, 50, null);
+                        }
+                        break;
+
+                    case LightsCommand.full:
+                        if (light.LSwitch.State.On && light.LSwitch.State.Brightness == 100)
+                        {
+                            stateAlready = true;
+                        }
+                        else
+                        {
+                            await light.SwitchState(true, 100, null);
+                        }
+                        break;
+
+                    case LightsCommand.up:
+                        if (light.LSwitch.State.On && light.LSwitch.State.Brightness == 100)
+                        {
+                            stateAlready = true;
+                        }
+                        else
+                        {
+                            int b = light.LSwitch.State.Brightness + 20;
+                            await light.SwitchState(true, b > 100 ? 100: b, null);
+                        }
+                        break;
+
+                    case LightsCommand.down:
+                        if (light.LSwitch.State.On && light.LSwitch.State.Brightness == 10)
+                        {
+                            stateAlready = true;
+                        }
+                        else
+                        {
+                            int b = light.LSwitch.State.Brightness - 20;
+                            await light.SwitchState(true, b < 0 ? 10 : b, null);
+                        }
+                        break;
                 }
 
                 if (stateAlready)

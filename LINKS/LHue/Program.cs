@@ -24,7 +24,7 @@ namespace LHue
             //Test();
             // Loads the window just as if it was called from LINKS.
             // Running in WindowsApplication mode will not allow usage of UI templates.
-            LHue.MyCustomClass.Test_InitWPFWindow();
+            LHue.Functions.Test_InitWPFWindow();
 
             Console.ReadLine();
             
