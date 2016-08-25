@@ -46,33 +46,44 @@ namespace LHue
         }
 
         public async void UpdateView(Light light = null, bool refresh = false)
-        {            
-            if (refresh)
+        {
+            try
             {
-                Console.WriteLine("UpdateView: " + LSwitch.Name);
-                LSwitch = await CurrentBridge.Client.GetLightAsync(LSwitch.Id);
-            }
-            else
-            {
-                LSwitch = light;
-                Console.WriteLine("UpdateView Refresh:" + LSwitch.Name);
-            }
+                if (refresh)
+                {
+                    Console.WriteLine("UpdateView: " + LSwitch.Name);
+                    LSwitch = await CurrentBridge.Client.GetLightAsync(LSwitch.Id);
+                }
+                else
+                {
+                    LSwitch = light;
+                    Console.WriteLine("UpdateView Refresh:" + LSwitch.Name);
+                }
 
-            if (LSwitch.State.On)
-            {
-                Brightness = map(LSwitch.State.Brightness, 0, 254, 0, 100);
-            }
-            IsOn = LSwitch.State.On;
+                if (LSwitch.State.On)
+                {
+                    Brightness = map(LSwitch.State.Brightness, 0, 254, 0, 100);
+                }
+                IsOn = LSwitch.State.On;
 
-            RGBColor hue = LSwitch.State.ToRgb();
-            SetColorSlider(hue);
+                RGBColor hue = LSwitch.State.ToRgb();
+                SetColorSlider(hue);
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
 
             //return lSwitch;
         }
 
         private async void SetColorSlider(RGBColor hueColor)
         {
-            colorSlider.Value = 0;
+            await this.colorSlider.Dispatcher.BeginInvoke(new Action(delegate
+            {
+                colorSlider.Value = 0;
+            }));
+
             for (int s = 1; s <= 1000; s++)
             {
                 
@@ -166,6 +177,7 @@ namespace LHue
             DoubleAnimation ani = new DoubleAnimation(isOn ? 254 : 0, TimeSpan.FromMilliseconds(160));
             uiElement.BeginAnimation(ProgressBar.ValueProperty, ani);
         }
+
 
         public async Task<HueResults> SwitchState(bool? isOn = null, double? brightness = null, RGBColor? hue = null)
         {
@@ -532,17 +544,23 @@ namespace LHue
                 isOn = value;
                 if (isOn)
                 {
-                    Storyboard sb = (Storyboard)TryFindResource("On");                    
-                    ((DoubleAnimationUsingKeyFrames)(sb.Children.First(c => c.Name == "OnBrightness")))
-                        .KeyFrames[0].Value = Brightness / 100.0;
-                    sb.Begin();
+                    Dispatcher.BeginInvoke(new Action(delegate
+                    {
+                        Storyboard sb = (Storyboard)TryFindResource("On");
+                        ((DoubleAnimationUsingKeyFrames)(sb.Children.First(c => c.Name == "OnBrightness")))
+                            .KeyFrames[0].Value = Brightness / 100.0;
+                        sb.Begin();
+                    }));
                 }
                 else
                 {
-                    Storyboard sb = (Storyboard)TryFindResource("Off");
-                    ((DoubleAnimationUsingKeyFrames)(sb.Children.First(c => c.Name == "OffBrightness")))
-                        .KeyFrames[0].Value = 0.0;
-                    sb.Begin();
+                    Dispatcher.BeginInvoke(new Action(delegate
+                    {
+                        Storyboard sb = (Storyboard)TryFindResource("Off");
+                        ((DoubleAnimationUsingKeyFrames)(sb.Children.First(c => c.Name == "OffBrightness")))
+                            .KeyFrames[0].Value = 0.0;
+                        sb.Begin();
+                    }));
                 }
             }
         }

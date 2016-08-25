@@ -11,6 +11,7 @@ using System.Windows.Threading;
 
 namespace LHue
 {
+    
     public partial class Functions
     {
         public static MyCustomWindow myCustomWindow;

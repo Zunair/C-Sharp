@@ -22,16 +22,16 @@
 
         <TextBlock x:Name="label_Title" Text="PHILIPS HUE" Margin="32,16,32,0" VerticalAlignment="Top" FontFamily="Futurist Fixed-width" FontWeight="ExtraBold" TextAlignment="Center" LineHeight="16" FontSize="16"/>
 
-        <GroupBox Header="Add Bridge" Margin="32,54,32,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="288" BorderThickness="1">
-            <Grid Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBox x:Name="textBox_name" HorizontalAlignment="Left" Height="20" Margin="87,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="128"/>
-                <TextBox x:Name="textBox_ip" HorizontalAlignment="Left" Height="18" Margin="65,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+        <GroupBox Name="groupAddBridge" Header="Add Bridge" Margin="32,54,32,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="288" BorderThickness="1">
+            <Grid Margin="30,20" VerticalAlignment="Center" HorizontalAlignment="Center" Height="84">
+                <TextBox x:Name="textBox_name" HorizontalAlignment="Left" Margin="87,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="128"/>
+                <TextBox x:Name="textBox_ip" HorizontalAlignment="Left"  Margin="65,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
                 <Label x:Name="label_name" Content="Bridge Name:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.073,0.654"/>
-                <Label x:Name="label_ip" Content="Bridge IP:" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="button_AddBridge" Content="Add Bridge" Margin="0,50,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="215" Height="24" Opacity="0.8" Click="button_AddBridge_Click"/>
+                <Label x:Name="label_ip" Content="Bridge IP:" HorizontalAlignment="Left" Margin="0,27,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="button_AddBridge" Content="Add Bridge" Margin="0,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="215" Height="24" Opacity="0.8" Click="button_AddBridge_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Current Bridge" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="32,213,32,0" Width="288" BorderThickness="1">
+        <GroupBox Name="groupBridge" Header="Current Bridge" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="32,213,32,0" Width="288" BorderThickness="1">
             <Grid Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <CheckBox x:Name="test_checkBox_LoadOnStart" HorizontalAlignment="Left" Margin="0,27,0,0" VerticalAlignment="Top" IsChecked="{Binding RunOnStart, ElementName=window}" MouseEnter="uiElement_MoustEnter" MouseLeave="uiElement_MoustLeave" Opacity="0.2" Content="Load on startup" ToolTip="Makes LINKS load it as a plugin on start." RenderTransformOrigin="0.404,0.733"/>
                 <Button x:Name="button_close" Content="Exit" HorizontalAlignment="Left" Margin="0,116,0,0" VerticalAlignment="Top" Width="215" Click="button_close_Click" Height="24" Opacity="0.8"/>
@@ -41,10 +41,7 @@
                 <Button x:Name="button_Minimize" Content="Hide Settings" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top" Width="215" Height="24" Opacity="0.8" Click="button_Minimize_Click"/>
             </Grid>
         </GroupBox>
-        <MediaElement Name="media">
-            
-        </MediaElement>
-    </Grid>    
+    </Grid>
 
-    
+
 </Window>
