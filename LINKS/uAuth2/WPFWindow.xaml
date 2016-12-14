@@ -1,0 +1,12 @@
+﻿<Window x:Name="window" x:Class="uAuth2.WPFWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:uAuth2"
+        mc:Ignorable="d"
+        Title="WPFWindow" Height="620" Width="820" Background="{x:Null}" Closing="Window_Closing" Loaded="window_Loaded" Foreground="{x:Null}" WindowStartupLocation="CenterScreen" Visibility="Visible">
+    <Grid>
+        <WebBrowser x:Name="webBrowser" Initialized="webBrowser_Initialized" LoadCompleted="webBrowser_LoadCompleted" Navigated="webBrowser_Navigated" Focusable="False" IsHitTestVisible="False"/>
+    </Grid>
+</Window>
