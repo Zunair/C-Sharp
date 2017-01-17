@@ -13,7 +13,7 @@ namespace LHue
         {
             on, off, up, down, full, medium, low
         }
-
+        
         //[LHue.Functions.Switch("DeviceState","DeviceName","ConfirmingPhrase","AlreadyInStatePhrase")]
         public static async Task<string> Switch(string DeviceState, string DeviceName, string ConfirmingPhrase, string AlreadyInStatePhrase)
         {

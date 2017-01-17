@@ -85,6 +85,14 @@ namespace PluginLoader
             return AddPlugin(p);
         }
 
+        public void UpdatePlugin(Plugin plugin, Assembly assembly)
+        {
+            string v = assembly.GetName().Version.ToString();
+            plugin.Version = v.Split('.')[0] + "." + v.Split('.')[1];
+            plugin.FullName = assembly.FullName;
+            Save();
+        }
+
         public void AddPlugin (string FullExeOrDLLPath)
         {
             List<string> Errors = new List<string>();

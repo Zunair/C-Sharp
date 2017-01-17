@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LPluginReg", "LPluginReg\LP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLoader", "PluginLoader\PluginLoader.csproj", "{561A7451-4453-46C9-B488-A0DC05E7A9CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLoquendoEmulator", "LLoquendoEmulator\LLoquendoEmulator.csproj", "{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSamplePluginWPF_Blank", "LSamplePluginWPF-Blank\LSamplePluginWPF_Blank.csproj", "{50D5084D-CBA4-45D4-AB2E-199F11BFF172}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CI|Any CPU = CI|Any CPU
@@ -209,6 +213,30 @@ Global
 		{561A7451-4453-46C9-B488-A0DC05E7A9CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{561A7451-4453-46C9-B488-A0DC05E7A9CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{561A7451-4453-46C9-B488-A0DC05E7A9CF}.Release|x86.Build.0 = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.CI|Any CPU.ActiveCfg = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.CI|Any CPU.Build.0 = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.CI|x86.ActiveCfg = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.CI|x86.Build.0 = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Debug|x86.Build.0 = Debug|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Release|x86.ActiveCfg = Release|Any CPU
+		{A3095505-FF5A-4319-9F5D-9B89F0FD6E49}.Release|x86.Build.0 = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.CI|Any CPU.ActiveCfg = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.CI|Any CPU.Build.0 = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.CI|x86.ActiveCfg = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.CI|x86.Build.0 = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Debug|x86.Build.0 = Debug|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Release|x86.ActiveCfg = Release|Any CPU
+		{50D5084D-CBA4-45D4-AB2E-199F11BFF172}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

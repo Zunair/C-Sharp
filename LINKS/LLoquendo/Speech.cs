@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LTTS7Lib;
+
 using System.Text.RegularExpressions;
 using System.Reflection;
 
 namespace LLoquendo
 {
+    
     public class Speech
     {
         static List<LoqSynth> SpeechSynth = new List<LoqSynth>();
@@ -19,43 +21,62 @@ namespace LLoquendo
         //[LLoquendo.Speech.Speak("phrase","volume","rate","voice")]
         public static string Speak(string phrase, string volume, string rate, string voice)
         {
-            if (SpeechSynth.Count == 0)
-            {
-                SpeechSynth.Add(new LoqSynth(voice));
-            }
-     
-//#if LINKSEXISTS
+            //System.Diagnostics.Debugger.Break();
+
             try
             {
-                if (jarvisWPF.PublicClass.SpeechSynth != null)
+                if (SpeechSynth.Count == 0)
                 {
-                    System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                    stopWatch.Start();
-
-                    while (jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Count > 0)
+                    LoqSynth ls = new LoqSynth(voice);
+                    if (ls.Voice != "")
                     {
-                        System.Threading.Thread.Sleep(300);
-                        if (stopWatch.Elapsed.Seconds > 30)
+                        SpeechSynth.FirstOrDefault().LoquendoX.EndOfSpeech += LoquendoX_EndOfSpeech;
+                        SpeechSynth.Add(ls);
+                    }
+                    else
+                    {
+                        return phrase;
+                    }
+                }
+
+
+                //#if LINKSEXISTS
+                try
+                {
+                    if (jarvisWPF.PublicClass.SpeechSynth != null)
+                    {
+                        System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+                        stopWatch.Start();
+
+                        while (jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Count > 0)
                         {
-                            jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Clear();
+                            System.Threading.Thread.Sleep(300);
+                            if (stopWatch.Elapsed.Seconds > 30)
+                            {
+                                jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Clear();
+                            }
                         }
                     }
                 }
+                catch
+                {
+                    Console.WriteLine("Can't wait for LINKS to finish talking...");
+                    //System.Diagnostics.Debugger.Break();
+                }
+                //#endif
+
+
+                lastVoice = voice;
+                lastVolume = volume;
+                lastRate = rate;
+                lastPhrase = phrase;
+
+                return SpeechSynth.FirstOrDefault().Speak(phrase, volume, rate, voice);
             }
             catch
             {
-                Console.WriteLine("Can't wait for LINKS to finish talking...");
-                //System.Diagnostics.Debugger.Break();
+                return phrase;
             }
-//#endif
-
-
-            lastVoice = voice;
-            lastVolume = volume;
-            lastRate = rate;
-            lastPhrase = phrase;
-
-            return SpeechSynth.FirstOrDefault().Speak(phrase, volume, rate, voice);
 
             //if (SpeechSynth.Find(ls => ls.Voice == voice) == null)
             //{
@@ -72,9 +93,19 @@ namespace LLoquendo
             //return SpeechSynth.First(ls => ls.Voice == voice).Speak(phrase, volume, rate, voice);
         }
 
+        private static void LoquendoX_EndOfSpeech()
+        {
+            throw new NotImplementedException();
+        }
+
         //[LLoquendo.Speech.Stop()]
         public static string Stop()
         {
+            if (jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Count > 0)
+            {
+                jarvisWPF.PublicClass.SpeechSynth.StopSpeech();
+                jarvisWPF.PublicClass.SpeechSynth.SpeechPrompts.Clear();
+            }
             SpeechSynth.FirstOrDefault().LoquendoX.Stop();
             return "";
         }
@@ -122,7 +153,7 @@ namespace LLoquendo
     }
 
 
-    class LoqSynth
+    public class LoqSynth
     {
         LTTS7 loquendoX = null;
         string _voice = "";
@@ -154,43 +185,84 @@ namespace LLoquendo
             }
         }
 
-        internal LoqSynth(string voice)
+        public List<string> Voices
+        {
+            get
+            {
+                return voices;
+            }
+
+            set
+            {
+                voices = value;
+            }
+        }
+
+        public LoqSynth(string voice)
         {
             LoquendoX = new LTTS7();
-            Voice = voice;
             GatherVoices();
 
-            ((_DLTTS7)loquendoX).Voice = Voice;
+            if (IsLoquendoVoice(voice))
+            {
 
-            LoquendoX.SetAttribute("TextFormat", "SSML");
-            LoquendoX.AudioChannels = "Stereo";
-            LoquendoX.Device = 0;
-            LoquendoX.Volume = 50;
-            try
-            {
-                LoquendoX.Volume = jarvisWPF.PublicClass.SpeechSynth.VoiceConfigs.Get(Voice).VoiceVolume;
+                Voice = voice;
+
+                ((_DLTTS7)loquendoX).Voice = Voice;
+
+                LoquendoX.SetAttribute("TextFormat", "SSML");
+                LoquendoX.AudioChannels = "Stereo";
+                LoquendoX.Device = 0;
+                LoquendoX.Volume = 50;
+                try
+                {
+                    LoquendoX.Volume = jarvisWPF.PublicClass.SpeechSynth.VoiceConfigs.Get(Voice).VoiceVolume;
+                }
+                catch
+                {
+                    Console.WriteLine("Can't get volume from LINKS...");
+                    //System.Diagnostics.Debugger.Break();
+                }
+                //LoquendoX.EndOfSpeech += new _DLTTS7Events_EndOfSpeechEventHandler(Loquendo_EndOfSpeech);
             }
-            catch
-            {
-                Console.WriteLine("Can't get volume from LINKS...");
-                //System.Diagnostics.Debugger.Break();
-            }
-            //LoquendoX.EndOfSpeech += new _DLTTS7Events_EndOfSpeechEventHandler(Loquendo_EndOfSpeech);
         }
 
         private void GatherVoices()
         {
-            voices = new List<string>();
+            Voices = new List<string>();
 
             string enumVoice = LoquendoX.EnumFirstVoice("");
             while (enumVoice != "")
             {
-                voices.Add(enumVoice);
+                Voices.Add(enumVoice);
                 enumVoice = LoquendoX.EnumNextVoice();
                 //string lan = LoquendoX.GuessLanguage(enumVoice);
                 //lan = LoquendoX.GuessFileLanguage(enumVoice);
             }
             
+        }
+
+        private bool IsLoquendoVoice(string voice)
+        {
+            if (Voices == null)
+            {
+                Voices = new List<string>();
+            }
+            bool retVal = false;
+
+            string enumVoice = LoquendoX.EnumFirstVoice("");
+            while (enumVoice != "")
+            {
+                if (enumVoice.ToLower() == voice.ToLower())
+                {
+                    retVal = true;
+                    break;
+
+                }
+                
+                enumVoice = LoquendoX.EnumNextVoice();
+            }
+            return retVal;
         }
 
         internal string Speak(string phrase, string volume, string rate, string voice)
@@ -206,7 +278,7 @@ namespace LLoquendo
                     rate = "50";
                 }
                 
-                if (voice != string.Empty && voices.Find(v => v == voice) == null)
+                if (voice != string.Empty && Voices.Find(v => v == voice) == null)
                 {
                     if (phrase.Contains("\\"))
                     {
@@ -267,7 +339,7 @@ namespace LLoquendo
                         }
 //#endif
 
-                        LoquendoX.Read(string.Format(@"\language={4} \voice={0} \volume={2} \speed={3} {1}", voice, phrase, volume, rate, lang));
+                        LoquendoX.Read(string.Format(@"\language={4} \voice={0} \volume={2} \speed={3} {1}", voice, phrase, volume, rate, lang == null ? "": lang));
                     }
                 }
                 //Task.WaitAll();

@@ -35,7 +35,7 @@ namespace LLoquendo
             try
             {
                 Console.WriteLine("Testing Kate's and Simon's voice...");
-                LLoquendo.Speech.Speak("I am Kate.\\voice=Simon I am Simon.", "5", "50", "Microsoft David");
+                LLoquendo.Speech.Speak("I am Kate.\\voice=Simon I am Simon.", "5", "50", "Kate");
                 LLoquendo.Speech.Speak("I am Kate.\\voice=Simon I am Simon.", "100", "50", "Kate");
                 LLoquendo.Speech.Speak("Simon again.", "100", "10", "Simon");
                 Console.WriteLine("Testing Simon's voice...");

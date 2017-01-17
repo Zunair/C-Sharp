@@ -62,11 +62,11 @@ namespace LHue
 
             try
             {
-                myCustomWindow.FormTest_Close();
+                myCustomWindow.FormTest_Close();                
             }
             catch(Exception error)
             {
-                Debugger.Break();
+                //Debugger.Break();
                 Console.WriteLine(error.Message);
             }
             finally
@@ -111,6 +111,7 @@ namespace LHue
     /// </summary>
     public class MyCustomWindow
     {
+        Thread t;
         /// <summary>
         /// Initializes class
         /// Initializes wpf window in a new thread
@@ -120,9 +121,9 @@ namespace LHue
             //Debugger.Launch();
             //Debugger.Break();
 
-            Thread t = new Thread(InitializeWindow);
+            t = new Thread(InitializeWindow);
             t.SetApartmentState(ApartmentState.STA);
-
+            t.IsBackground = true;
             t.Start();
         }
 
@@ -230,6 +231,7 @@ namespace LHue
                     });
                 }
             }
+            t.Abort();
         }
     }
 }
