@@ -129,7 +129,7 @@ namespace LSelenium
         public string Translate(string languageTranslateFrom, string languageTo , string phraseToTranslate, string getStringOrSetAsClipboard)
         {
             string retVal = "";
-            Uri uri = new Uri("https://translate.google.cn/m/translate?hl="  + languageTranslateFrom + "#auto/" + languageTo +  "/" + phraseToTranslate);
+            Uri uri = new Uri("https://translate.google.com/m/translate?hl="  + languageTranslateFrom + "#auto/" + languageTo +  "/" + phraseToTranslate);
             _tries++;
             
             try
