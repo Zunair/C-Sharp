@@ -6,9 +6,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace LSamplePluginWPF
+namespace SpeechEmulator
 {
-    public class MyCustomClass
+    public class Window
     {
         private static MyCustomWindow myCustomWindow;
         
@@ -17,7 +17,7 @@ namespace LSamplePluginWPF
         /// Can be called from any reponse or web [LSamplePluginWPF.MyCustomClass.Test_InitWPFWindow]
         /// </summary>
         /// <returns></returns>
-        public static string Test_InitWPFWindow()
+        public static string Open()
         {
             string retVal = string.Empty;
 
@@ -36,7 +36,7 @@ namespace LSamplePluginWPF
         /// </summary>
         /// <param name="labelText"></param>
         /// <returns></returns>
-        public static string Test_ChangeTitleInMyCustomWindow(string labelText)
+        private static string Test_ChangeTitleInMyCustomWindow(string labelText)
         {
             string retVal = string.Empty;
 
@@ -50,7 +50,7 @@ namespace LSamplePluginWPF
         /// Can be called from any reponse or web [LSamplePluginWPF.MyCustomClass.Test_FormClose]
         /// </summary>
         /// <returns></returns>
-        public static string Test_FormClose()
+        public static string Close()
         {
             string retVal = string.Empty;
 
@@ -65,7 +65,7 @@ namespace LSamplePluginWPF
         /// </summary>
         public static void OnDispose()
         {
-            Test_FormClose();            
+            Close();            
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace LSamplePluginWPF
         {
             if (Properties.Settings.Default.LoadOnStart)
             {
-                Test_InitWPFWindow();
+                Open();
                 jarvisWPF.PublicClass.SpeechSynth.SpeakRandomPhrase(Properties.Settings.Default.StartUpPhrase);
             }
         }

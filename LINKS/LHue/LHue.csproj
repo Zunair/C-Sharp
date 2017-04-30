@@ -40,8 +40,9 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jarvisWPF">
-      <HintPath>..\..\..\..\..\AppData\Roaming\LINKS\Customization\Plugins\jarvisWPF.exe</HintPath>
+    <Reference Include="JarvisWPF, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3c2b46bb851e27cf, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\AppData\Roaming\LINKS\Customization\Plugins\JarvisWPF.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

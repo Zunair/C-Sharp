@@ -9,7 +9,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StartUpPhrase" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Loading Sample Plug-in;Loading Your Custom Plug-in</Value>
+      <Value Profile="(Default)">Loading Speech Plug in.</Value>
     </Setting>
   </Settings>
 </SettingsFile>

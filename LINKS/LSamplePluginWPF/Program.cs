@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LSamplePluginWPF
+namespace SpeechEmulator
 {
     /// <summary>
     /// Used when project is set as WindowsApplication.
@@ -17,7 +17,7 @@ namespace LSamplePluginWPF
         {
             // Loads the window just as if it was called from LINKS.
             // Running in WindowsApplication mode will not allow usage of UI templates.
-            LSamplePluginWPF.MyCustomClass.Test_InitWPFWindow();
+            SpeechEmulator.Window.Open();
         }
     }
 }

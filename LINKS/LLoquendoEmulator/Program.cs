@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLoquendoEmulator
+namespace LoquendoEmulator
 {
     /// <summary>
     /// Used when project is set as WindowsApplication.
@@ -17,7 +17,7 @@ namespace LLoquendoEmulator
         {
             // Loads the window just as if it was called from LINKS.
             // Running in WindowsApplication mode will not allow usage of UI templates.
-            LLoquendoEmulator.MyCustomClass.Test_InitWPFWindow();
+            LoquendoEmulator.Window.Open();
         }
     }
 }

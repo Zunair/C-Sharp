@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LLoquendoEmulator.Properties {
+namespace LoquendoEmulator.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -49,7 +49,7 @@ namespace LLoquendoEmulator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Loading loquendo plug-in")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Loading loquendo plug in.")]
         public string StartUpPhrase {
             get {
                 return ((string)(this["StartUpPhrase"]));

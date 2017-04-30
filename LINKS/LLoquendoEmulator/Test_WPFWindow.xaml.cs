@@ -13,12 +13,12 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LLoquendoEmulator
+namespace LoquendoEmulator
 {
     /// <summary>
     /// Interaction logic for Test_WPFWindow.xaml
     /// </summary>
-    public partial class Test_WPFWindow : Window
+    public partial class Test_WPFWindow : System.Windows.Window
     {
         string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         bool runOnStart = true;

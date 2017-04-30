@@ -1,9 +1,9 @@
-﻿<Window x:Name="window" x:Class="LSamplePluginWPF.Test_WPFWindow"
+﻿<Window x:Name="window" x:Class="SpeechEmulator.Test_WPFWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LSamplePluginWPF"
+        xmlns:local="clr-namespace:SpeechEmulator"
         mc:Ignorable="d"
         Title="Test WPFWindow" Height="263.686" Width="271.218" AllowsTransparency="True" WindowStyle="None" ShowInTaskbar="False" Background="{x:Null}" Closing="Window_Closing">
     <Grid>

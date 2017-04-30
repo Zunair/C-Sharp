@@ -9,7 +9,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StartUpPhrase" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Loading loquendo plug-in</Value>
+      <Value Profile="(Default)">Loading loquendo plug in.</Value>
     </Setting>
   </Settings>
 </SettingsFile>

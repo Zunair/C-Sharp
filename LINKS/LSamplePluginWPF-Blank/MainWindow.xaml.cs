@@ -17,6 +17,15 @@ using System.Windows.Threading;
 
 namespace LSamplePluginWPF_Blank
 {
+
+    public abstract class LINKS_WPF_Window : Window
+    {
+        public MainWindow()
+        {
+
+        }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

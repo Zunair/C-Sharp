@@ -16,7 +16,7 @@ namespace LSampleTestProject
             LLoquendo.Speech.Speak("Volume at 50%", "50", "100", "Kate");
             LLoquendo.Speech.Speak("\\item=Breath 5, 6, 7, 8.", "100", "50", "Kate");
             Console.ReadKey();
-            LSamplePluginWPF.MyCustomClass.Test_InitWPFWindow();
+            SpeechEmulator.Window.Open();
         }
     }
 }

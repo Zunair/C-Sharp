@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LSamplePluginWPF.Properties {
+namespace SpeechEmulator.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -49,7 +49,7 @@ namespace LSamplePluginWPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Loading Sample Plug-in;Loading Your Custom Plug-in")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Loading Speech Plug in.")]
         public string StartUpPhrase {
             get {
                 return ((string)(this["StartUpPhrase"]));

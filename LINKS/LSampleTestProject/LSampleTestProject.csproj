@@ -77,9 +77,9 @@
       <Project>{2332ed03-8b51-4c94-b9cb-a357c290780f}</Project>
       <Name>LLoquendo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LSamplePluginWPF\LSamplePluginWPF.csproj">
+    <ProjectReference Include="..\LSamplePluginWPF\LSpeechPluginWPF.csproj">
       <Project>{652ece0d-9e0c-4ef3-9207-fe590e7a281a}</Project>
-      <Name>LSamplePluginWPF</Name>
+      <Name>LSpeechPluginWPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\LSamplePlugin\LSamplePlugin.csproj">
       <Project>{8ab098bd-927a-4c26-84cd-2eacc3b600c4}</Project>

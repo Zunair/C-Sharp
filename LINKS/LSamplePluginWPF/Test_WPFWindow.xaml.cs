@@ -13,12 +13,12 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LSamplePluginWPF
+namespace SpeechEmulator
 {
     /// <summary>
     /// Interaction logic for Test_WPFWindow.xaml
     /// </summary>
-    public partial class Test_WPFWindow : Window
+    public partial class Test_WPFWindow : System.Windows.Window
     {
         string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         bool runOnStart = true;
@@ -103,7 +103,7 @@ namespace LSamplePluginWPF
             {
                 if (LINKSInitialized())
                 {
-                    jarvisWPF.Classes.Plugins.PluginController.EmulateSpeech(test_textBox_Emulate.Text);
+                    jarvisWPF.Classes.Plugins.PluginController.Emulate.EmulateSpeech(test_textBox_Emulate.Text);
                 }
             }
             catch (Exception error)

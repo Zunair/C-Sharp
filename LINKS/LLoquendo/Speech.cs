@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LTTS7Lib;
-
 using System.Text.RegularExpressions;
-using System.Reflection;
 
 namespace LLoquendo
 {
-    
+
     public class Speech
     {
         static List<LoqSynth> SpeechSynth = new List<LoqSynth>();
@@ -30,7 +26,8 @@ namespace LLoquendo
                     LoqSynth ls = new LoqSynth(voice);
                     if (ls.Voice != "")
                     {
-                        SpeechSynth.FirstOrDefault().LoquendoX.EndOfSpeech += LoquendoX_EndOfSpeech;
+                        ls.LoquendoX.EndOfSpeech += new _DLTTS7Events_EndOfSpeechEventHandler(LoquendoX_EndOfSpeech);                        
+                        ls.LoquendoX.text += LoquendoX_text;
                         SpeechSynth.Add(ls);
                     }
                     else
@@ -39,7 +36,7 @@ namespace LLoquendo
                     }
                 }
 
-
+                
                 //#if LINKSEXISTS
                 try
                 {
@@ -70,11 +67,13 @@ namespace LLoquendo
                 lastVolume = volume;
                 lastRate = rate;
                 lastPhrase = phrase;
+                
 
                 return SpeechSynth.FirstOrDefault().Speak(phrase, volume, rate, voice);
             }
-            catch
+            catch ( Exception error)
             {
+                Console.WriteLine(error.Message);
                 return phrase;
             }
 
@@ -93,7 +92,12 @@ namespace LLoquendo
             //return SpeechSynth.First(ls => ls.Voice == voice).Speak(phrase, volume, rate, voice);
         }
 
-        private static void LoquendoX_EndOfSpeech()
+        public static void LoquendoX_text(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void LoquendoX_EndOfSpeech()
         {
             throw new NotImplementedException();
         }
@@ -337,8 +341,10 @@ namespace LLoquendo
                             Console.WriteLine("Can't get language from LINKS...");
                             //System.Diagnostics.Debugger.Break();
                         }
-//#endif
+                        //#endif
 
+
+                        LoquendoX.ReadFile("c:\\temp\\test.txt");
                         LoquendoX.Read(string.Format(@"\language={4} \voice={0} \volume={2} \speed={3} {1}", voice, phrase, volume, rate, lang == null ? "": lang));
                     }
                 }
@@ -357,7 +363,14 @@ namespace LLoquendo
             return retVal;
         }
 
-        private void Loquendo_StartOfSpeech()
+
+
+        public void LoquendoX_EndOfSpeech()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Loquendo_StartOfSpeech()
         {
             //throw new NotImplementedException();
         }

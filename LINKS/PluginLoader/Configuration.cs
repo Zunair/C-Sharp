@@ -79,9 +79,9 @@ namespace PluginLoader
             File.SetAttributes(config_xml, FileAttributes.Hidden);
         }
 
-        public Plugin AddPlugin(string FullName, string FullExeOrDLLPath, string Version)
+        public Plugin AddPlugin(string FullName, string FullExeOrDLLPath, string Version, string CompanyName)
         {
-            Plugin p = new Plugin(FullName, FullExeOrDLLPath, Version);
+            Plugin p = new Plugin(FullName, FullExeOrDLLPath, Version, CompanyName);
             return AddPlugin(p);
         }
 
@@ -101,7 +101,10 @@ namespace PluginLoader
             {
                 Assembly a = Assembly.LoadFrom(FullExeOrDLLPath);
                 string v = a.GetName().Version.ToString();
-                Plugin p = AddPlugin(a.FullName, a.Location, v.Split('.')[0] + "." + v.Split('.')[1]);
+                var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+                
+                // TODO: get author n add to xml
+                Plugin p = AddPlugin(a.FullName, a.Location, v.Split('.')[0] + "." + v.Split('.')[1], versionInfo.CompanyName);
 
                 var test = a.GetTypes();
                 test = null;
@@ -159,6 +162,16 @@ namespace PluginLoader
             }
         }
 
+        public void RemovePlugin(string PluginName)
+        {
+            if (!IsLoaded) Load();
+            if (Plugins.Exists(p => p.Name == PluginName))
+            {
+                Plugin plugin = Plugins.Find(p => p.Name == PluginName);
+                Plugins.Remove(plugin);
+            }
+        }
+
         #region Private Methods
         private void LoadConfig()
         {
@@ -184,12 +197,13 @@ namespace PluginLoader
         {
         }
 
-        public Plugin(string Name, string Path, string Version)
+        public Plugin(string Name, string Path, string Version, string Company)
         {
             this.FullPath = Path;
             this.FullName = Name;
             this.Enabled = false;
             this.Version = Version;
+            this.Company = Company;
         }
 
         private string fullName;
@@ -197,6 +211,7 @@ namespace PluginLoader
         private string fullPath;
         private bool enabled;
         private string version = null;
+        private string company;
 
 
         [XmlAttribute("Name", DataType = "string")]
@@ -267,6 +282,20 @@ namespace PluginLoader
             set
             {
                 version = value;
+            }
+        }
+
+        [XmlAttribute("Company", DataType = "string")]
+        public string Company
+        {
+            get
+            {
+                return company;
+            }
+
+            set
+            {
+                company = value;
             }
         }
     }

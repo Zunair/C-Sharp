@@ -57,13 +57,13 @@ namespace LSmartThings
                 if (!System.IO.File.Exists(switches_WordList_path))
                 {
                     retVal = "Grammar\tDeviceName\r\n";
-                    foreach (EndPoints.SmartThingsDevice d in stDevices.StDevices)
-                    {
-                        if (d.state != null)
-                        {
-                            retVal += string.Format("{0}\t{0}\r\n", d.name);
-                        }
-                    }
+                                    foreach (EndPoints.SmartThingsDevice d in stDevices.StDevices)
+                                    {
+                                        if (d.state != null)
+                                        {
+                                            retVal += string.Format("{0}\t{0}\r\n", d.name);
+                                        }
+                                    }
 
                     System.IO.File.WriteAllText(switches_WordList_path, retVal);
 
