@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -103,7 +102,7 @@ namespace LSamplePluginWPF
             {
                 if (LINKSInitialized())
                 {
-                    jarvisWPF.Classes.Plugins.PluginController.EmulateSpeech(test_textBox_Emulate.Text);
+                    jarvisWPF.Classes.Plugins.PluginController.Emulate.EmulateSpeech(test_textBox_Emulate.Text);
                 }
             }
             catch (Exception error)
