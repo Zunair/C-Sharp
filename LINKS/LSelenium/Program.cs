@@ -24,6 +24,8 @@ namespace LSelenium
                 .Select(s => s.Split(new[] { '=' }))
                 .ToDictionary(s => s[0], s => s[1]);
 
+            //sChrome.Goto("http://zunair.rocks", "false");
+
             if (args.Length == 3)
             {
                 sChrome.SpeakTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"]);
