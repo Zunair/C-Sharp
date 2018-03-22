@@ -22,11 +22,10 @@ namespace LSelenium
 
             sChromeInstance.Translate(languageTranslateFrom, languageTranslateTo, phraseToTranslate, "");
 
-
             return retVal;
         }
 
-        private static void SetChromeInstance(bool fullScreen = false)
+        private static void SetChromeInstance(bool fullScreen = false, bool headless = true)
         {
             if (sChromeInstance == null)
             {
@@ -56,10 +55,33 @@ namespace LSelenium
                     Console.WriteLine(retVal);
                 }
             }
-            
-
 
             return retVal;
+        }
+        
+        public static string ClickElementByCssSelector(string cssSelector)
+        {
+            return sChromeInstance.ClickElementByCssSelector(cssSelector);
+
+        }
+        public static string GetElementValueByCssSelector(string cssSelector)
+        {
+            return sChromeInstance.GetElementValueByCssSelector(cssSelector);
+        }
+
+        public static string GetElementValueByCssSelectorAndAttribute(string cssSelector, string attributeName)
+        {
+            return sChromeInstance.GetElementValueByCssSelectorAndAttribute(cssSelector, attributeName);
+        }
+
+        public static string SetElementValueByCssSelector(string cssSelector, string sendKeys)
+        {
+            return sChromeInstance.SetElementValueByCssSelector(cssSelector, sendKeys);
+        }
+
+        public static string WaitForCssSelectorWithAttibuteAndValue(string cssSelector, string attributeName, string timeout)
+        {
+            return sChromeInstance.WaitForCssSelectorWithAttibuteAndValue(cssSelector, attributeName, int.Parse(timeout));
         }
 
         public static string ClickElementByClass(string singleClassName)
@@ -76,7 +98,7 @@ namespace LSelenium
         {
             if (url == string.Empty) url = "http://zunair.rocks";
 
-            SetChromeInstance(bool.Parse(fullScreen));
+            SetChromeInstance(bool.Parse(fullScreen), false);
 
             return sChromeInstance.Goto(url);
         }
@@ -196,7 +218,7 @@ namespace LSelenium
         string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string ChromeDir = string.Empty;
 
-        public SeleniumChrome(bool fullScreen = false)
+        public SeleniumChrome(bool fullScreen = false, bool headless = true)
         {
             _cDs = ChromeDriverService.CreateDefaultService();
             _cDs.HideCommandPromptWindow = true;
@@ -207,6 +229,7 @@ namespace LSelenium
             System.IO.Directory.CreateDirectory(ChromeDir);
             options.AddArguments("user-data-dir=" + ChromeProfile);
             if (fullScreen) options.AddArguments("--start-fullscreen");
+            if (headless) options.AddArguments("--headless");
 
             _cD = new ChromeDriver(_cDs, options);
         }
@@ -273,6 +296,17 @@ namespace LSelenium
             return retVal;
         }
 
+        public string WaitForCssSelectorWithAttibuteAndValue(string cssSelector, string attributeName, int timeout)
+        {
+            string retVal = string.Empty;
+
+            var wait = new WebDriverWait(_cD, TimeSpan.FromSeconds(timeout));
+            wait.Until(d => d.FindElement(By.CssSelector(cssSelector)).GetAttribute(attributeName));
+            _cD.Manage();
+
+            return retVal;
+        }
+
         public string WaitForSourceContains(string sourceString, int timeout)
         {
             string retVal = string.Empty;
@@ -304,6 +338,27 @@ namespace LSelenium
             return retVal;
         }
 
+        public string ClickElementByCssSelector(string cssSelector)
+        {
+            string retVal = string.Empty;
+
+            try
+            {
+                IWebElement wE;
+
+                wE = _cD.FindElementByCssSelector(cssSelector);
+                wE.Click();
+
+            }
+            catch (Exception ex)
+            {
+                retVal = "Error: " + ex.Message;
+            }
+
+            return retVal;
+
+        }
+
         public string ClickElementByClass(string singleClassName)
         {
             string retVal = string.Empty;
@@ -324,6 +379,7 @@ namespace LSelenium
             return retVal;
 
         }
+
         public string ClickElementByID(string elementID)
         {
             string retVal = string.Empty;
@@ -384,6 +440,62 @@ namespace LSelenium
 
             return retVal;
 
+        }
+
+        public string SetElementValueByCssSelector(string cssSelector, string sendKeys)
+        {
+            string retVal = string.Empty;
+
+            try
+            {
+                IWebElement wE;
+
+                wE = _cD.FindElementByCssSelector(cssSelector);
+                wE.SendKeys(sendKeys);
+
+            }
+            catch (Exception ex)
+            {
+                retVal = "Error: " + ex.Message;
+            }
+
+            return retVal;
+        }
+
+        public string GetElementValueByCssSelector(string cssSelector)
+        {
+            string retVal = string.Empty;
+
+            try
+            {
+                IWebElement wE;
+
+                wE = _cD.FindElementByCssSelector(cssSelector);
+                retVal = wE.Text;
+
+            }
+            catch (Exception ex)
+            {
+                retVal = "Error: " + ex.Message;
+            }
+
+            return retVal;
+        }
+
+        public string GetElementValueByCssSelectorAndAttribute(string cssSelector, string attribute)
+        {
+            string retVal = string.Empty;
+
+            try
+            {
+                retVal = _cD.FindElementByCssSelector(cssSelector).GetAttribute(attribute);
+            }
+            catch (Exception ex)
+            {
+                retVal = "Error: " + ex.Message;
+            }
+
+            return retVal;
         }
 
         public string GetScreenshot(string filePath)
@@ -462,6 +574,7 @@ namespace LSelenium
 
             return retVal;
         }
+
         public string SetElementTextByClass(string singleClassName, string sendKeys)
         {
             string retVal = string.Empty;
