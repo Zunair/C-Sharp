@@ -117,6 +117,11 @@ namespace LSelenium
         {
             return sChromeInstance.WaitForClassWithAttibuteAndValue(singleClassName, attributeName, attributeValue, int.Parse(timeout));
         }
+        
+        public static string WaitForURLContains(string caseSensitiveString, string timeout)
+        {
+            return sChromeInstance.WaitForURLContains(caseSensitiveString , int.Parse(timeout));
+        }
 
         public static string WaitForSourceContains(string sourceString, string timeout)
         {
@@ -338,9 +343,29 @@ namespace LSelenium
             return retVal;
         }
 
+        public string WaitForURLContains(string caseSensitiveString, int timeout)
+        {
+            string retVal = string.Empty;
+
+            try
+            {
+                var wait = new WebDriverWait(_cD, TimeSpan.FromSeconds(timeout));
+                wait.Until(d => d.Url.Contains(caseSensitiveString));
+                _cD.Manage();
+            }
+            catch (Exception ex)
+            {
+                retVal = "Error: " + ex.Message;
+            }
+
+            return retVal;
+        }
+
         public string ClickElementByCssSelector(string cssSelector)
         {
             string retVal = string.Empty;
+
+            cssSelector = cssSelector.Replace('{', '[').Replace('}', ']');
 
             try
             {
@@ -446,6 +471,8 @@ namespace LSelenium
         {
             string retVal = string.Empty;
 
+            cssSelector = cssSelector.Replace('{', '[').Replace('}', ']');
+
             try
             {
                 IWebElement wE;
@@ -466,6 +493,8 @@ namespace LSelenium
         {
             string retVal = string.Empty;
 
+            cssSelector = cssSelector.Replace('{', '[').Replace('}', ']');
+
             try
             {
                 IWebElement wE;
@@ -485,6 +514,8 @@ namespace LSelenium
         public string GetElementValueByCssSelectorAndAttribute(string cssSelector, string attribute)
         {
             string retVal = string.Empty;
+
+            cssSelector = cssSelector.Replace('{', '[').Replace('}', ']');
 
             try
             {
