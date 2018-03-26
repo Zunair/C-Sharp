@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LSelenium
+namespace Chrome
 {
     /// <summary>
     /// This class is only used when it's called from command prompt or run directly.
@@ -24,17 +24,19 @@ namespace LSelenium
                 .Select(s => s.Split(new[] { '=' }))
                 .ToDictionary(s => s[0], s => s[1]);
 
-            //sChrome.Goto("http://zunair.rocks", "false");
+            //Browse.GotoAsApp("http://zunair.rocks", "false");
 
             if (args.Length == 3)
             {
-                sChrome.SpeakTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"]);
-                sChrome.Close();
+                GoogleTranslate.Speak(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"]);
+                //GoogleTranslate.Speak(parsedArgs["From"], parsedArgs["To"], "this is a test");
+
+                Chrome.Close();
             }
             else if (args.Length == 4)
             {
-                sChrome.GetTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"], parsedArgs["GetSet"]);
-                sChrome.Close();
+                GoogleTranslate.GetTranslation(parsedArgs["From"], parsedArgs["To"], parsedArgs["Phrase"]);
+                Chrome.Close();
             }
             else
             {
@@ -42,13 +44,13 @@ namespace LSelenium
                 Console.WriteLine("Invalid syntax.");
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("Usage: LSelenium \"{LanguageFrom}\" \"{LanguageTo}\" \"PhraseToTranslate\"");
-                Console.WriteLine("Sample: LSelenium \"en\" \"es\" \"What time is it?\"");
+                Console.WriteLine("Usage: Selenium From=\"{LanguageFrom}\" To=\"{LanguageTo}\" Phrase=\"PhraseToTranslate\"");
+                Console.WriteLine("Sample: Selenium From=\"en\" To=\"es\" Phrase=\"What time is it?\"");
                 Console.WriteLine("Description: Translates specified phrase from {LanguageFrom} to {LanguageTo} and speaks.");
-                Console.WriteLine();
-                Console.WriteLine("Usage: LSelenium \"{LanguageFrom}\" \"{LanguageTo}\" \"PhraseToTranslate\" \"SetOrGet\"");
-                Console.WriteLine("Sample: LSelenium \"en\" \"es\" \"What time is it?\" \"Set\"");
-                Console.WriteLine("Description: Sets cliboard with translated text. \r\n  Using Get as last parameter returns the translation in console.");
+                //Console.WriteLine();
+                //Console.WriteLine("Usage: Selenium \"{LanguageFrom}\" \"{LanguageTo}\" \"PhraseToTranslate\" \"Get\"");
+                //Console.WriteLine("Sample: Selenium \"en\" \"es\" \"What time is it?\" \"Set\"");
+                //Console.WriteLine("Description: Sets cliboard with translated text. \r\n  Using Get as last parameter returns the translation in console.");
             }
         }
     }    

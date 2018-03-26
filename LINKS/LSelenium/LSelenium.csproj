@@ -7,8 +7,8 @@
     <ProjectGuid>{A61DF6E3-8EAC-4BD1-985D-7AA055D52BC1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LSelenium</RootNamespace>
-    <AssemblyName>LSelenium</AssemblyName>
+    <RootNamespace>Selenium</RootNamespace>
+    <AssemblyName>Selenium</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -62,9 +62,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sChrome.cs" />
+    <Compile Include="LInterface\Click.cs" />
+    <Compile Include="LInterface\Browse.cs" />
+    <Compile Include="LInterface\Wait.cs" />
+    <Compile Include="LInterface\Set.cs" />
+    <Compile Include="LInterface\GoogleTranslate.cs" />
+    <Compile Include="LInterface\Get.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeleniumChrome.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
